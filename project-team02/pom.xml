@@ -178,9 +178,10 @@
 		</repository>
 
 		<repository>
-			<id>oaqa</id>
-			<url>http://mu.lti.cs.cmu.edu:8081/nexus/content/groups/course-dependencies</url>
-		</repository>
+            <id>oaqa</id>
+            <url>http://mu.lti.cs.cmu.edu:8081/nexus/content/repositories/course-dependencies</url>
+        </repository>
+        
 	</repositories>
 	<distributionManagement>
 		<repository>
