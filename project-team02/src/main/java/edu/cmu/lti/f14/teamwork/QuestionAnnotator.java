@@ -26,7 +26,7 @@ public class QuestionAnnotator extends JCasAnnotator_ImplBase {
   @Override
   public void process(JCas jcas) throws AnalysisEngineProcessException {
 
-    FSIterator<Annotation> iter = jcas.getAnnotationIndex().iterator();
+    FSIterator<Annotation> iter = jcas.getAnnotationIndex(Question.type).iterator();
     if (iter.isValid()) {
       iter.moveToNext();
       Question q = (Question) iter.get();
@@ -88,9 +88,9 @@ public class QuestionAnnotator extends JCasAnnotator_ImplBase {
     
     //TODO: stdout only for test, remove those output in future
     for (OntologyServiceResponse.Finding finding : diseaseOntologyResult.getFindings()) {
-      System.out.println(" > " + finding.getConcept().getLabel());
+      System.out.println("concepts: " + finding.getConcept().getLabel());
     }
-    System.out.println(diseaseOntologyResult.getKeywords());
+    System.out.println("keywords:" + diseaseOntologyResult.getKeywords());
     
     AtomicQueryConcept query = new AtomicQueryConcept(jcas);
     query.setOriginalText(q.getText());

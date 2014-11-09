@@ -19,11 +19,17 @@ import edu.cmu.lti.oaqa.bio.bioasq.services.PubMedSearchServiceResponse.Document
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.nlp.Parse;
 import edu.cmu.lti.oaqa.type.nlp.Token;
+import edu.cmu.lti.oaqa.type.retrieval.AtomicQueryConcept;
 
 public class DocumentAnnotator extends JCasAnnotator_ImplBase {
 
   private static String PropertiesPath = "PropertiesPATH";
   GoPubMedService service;
+  
+  /**
+   * get AtomicQueryConcept type from last annotator, output document type
+   * 
+   */
   @Override
   public void process(JCas jcas) throws AnalysisEngineProcessException {
     try {
@@ -31,27 +37,21 @@ public class DocumentAnnotator extends JCasAnnotator_ImplBase {
     } catch (ConfigurationException e) {
       e.printStackTrace();
     }
-    FSIterator it = jcas.getAnnotationIndex(Parse.type).iterator();
+    FSIterator it = jcas.getAnnotationIndex(AtomicQueryConcept.type).iterator();
     while(it.hasNext()){
-      Parse parse = (Parse) it.next();
-      FSList fslist = parse.getTokens();
-      ArrayList<Token> tokenList = Utils.fromFSListToCollection(fslist, Token.class); // covert to arraylist
-      Iterator<Token> tokenIter = tokenList.iterator();
-      StringBuilder sb = new StringBuilder();
-      //rebuild tokens to query sentence
-      while(tokenIter.hasNext()){
-        Token token = tokenIter.next();
-        sb.append(token.getLemmaForm());
-        sb.append(' ');
-      }
-      System.out.println(sb);
+      AtomicQueryConcept parse = (AtomicQueryConcept) it.next();
+      System.out.println("query: " + parse.getText());
       try {
-        PubMedSearchServiceResponse.Result pubmedResult = service.findPubMedCitations(sb.toString(), 0);
+        PubMedSearchServiceResponse.Result pubmedResult = service.findPubMedCitations(parse.getText(), 0);
         ArrayList<Document> list = (ArrayList<Document>) pubmedResult.getDocuments();
         //print result url
         for(int i=0; i<list.size(); i++){
           String url = "http://www.ncbi.nlm.nih.gov/pubmed/" + list.get(i).getPmid();
-          System.out.println(url);
+          System.out.println("document result: " + url);
+          edu.cmu.lti.oaqa.type.retrieval.Document d = new edu.cmu.lti.oaqa.type.retrieval.Document(jcas);
+          d.setTitle(url);
+          d.setDocId(String.valueOf(i));
+          d.addToIndexes(jcas);
         }
       } catch (IOException e) {
         // TODO Auto-generated catch block
@@ -59,5 +59,4 @@ public class DocumentAnnotator extends JCasAnnotator_ImplBase {
       }
     }
   }
-
 }
