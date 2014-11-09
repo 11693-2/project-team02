@@ -13,8 +13,8 @@ import org.apache.uima.jcas.cas.StringArray;
 
 
 /** Annotation on a token, which may have arguments if they are predicates; useful in transforming text into a "logical form", with affordances similar to the ones provided in Extended WordNet and the like. --- Source: Murdock
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team02-archetype/src/main/resources/type/OAQATypes.xml
+ * Updated by JCasGen Sat Nov 08 22:17:45 EST 2014
+ * XML source: /home/yifu/git/project-team02/project-team02/src/main/resources/type/OAQATypes.xml
  * @generated */
 public class Token extends Annotation {
   /** @generated
@@ -318,6 +318,28 @@ public class Token extends Annotation {
     if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_determiner == null)
       jcasType.jcas.throwFeatMissing("determiner", "edu.cmu.lti.oaqa.type.nlp.Token");
     jcasType.ll_cas.ll_setStringValue(addr, ((Token_Type)jcasType).casFeatCode_determiner, v);}    
+   
+    
+  //*--------------*
+  //* Feature: frequency
+
+  /** getter for frequency - gets Frequency of this token in text
+   * @generated
+   * @return value of the feature 
+   */
+  public int getFrequency() {
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_frequency == null)
+      jcasType.jcas.throwFeatMissing("frequency", "edu.cmu.lti.oaqa.type.nlp.Token");
+    return jcasType.ll_cas.ll_getIntValue(addr, ((Token_Type)jcasType).casFeatCode_frequency);}
+    
+  /** setter for frequency - sets Frequency of this token in text 
+   * @generated
+   * @param v value to set into the feature 
+   */
+  public void setFrequency(int v) {
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_frequency == null)
+      jcasType.jcas.throwFeatMissing("frequency", "edu.cmu.lti.oaqa.type.nlp.Token");
+    jcasType.ll_cas.ll_setIntValue(addr, ((Token_Type)jcasType).casFeatCode_frequency, v);}    
   }
 
     

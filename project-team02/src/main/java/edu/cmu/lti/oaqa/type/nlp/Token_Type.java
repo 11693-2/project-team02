@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** Annotation on a token, which may have arguments if they are predicates; useful in transforming text into a "logical form", with affordances similar to the ones provided in Extended WordNet and the like. --- Source: Murdock
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
+ * Updated by JCasGen Sat Nov 08 22:17:45 EST 2014
  * @generated */
 public class Token_Type extends Annotation_Type {
   /** @generated 
@@ -79,7 +79,7 @@ public class Token_Type extends Annotation_Type {
     if (lowLevelTypeChecks)
       return ll_cas.ll_getRefArrayValue(ll_cas.ll_getRefValue(addr, casFeatCode_arguments), i, true);
     jcas.checkArrayBounds(ll_cas.ll_getRefValue(addr, casFeatCode_arguments), i);
-	return ll_cas.ll_getRefArrayValue(ll_cas.ll_getRefValue(addr, casFeatCode_arguments), i);
+  return ll_cas.ll_getRefArrayValue(ll_cas.ll_getRefValue(addr, casFeatCode_arguments), i);
   }
    
   /** @generated
@@ -130,7 +130,7 @@ public class Token_Type extends Annotation_Type {
     if (lowLevelTypeChecks)
       return ll_cas.ll_getStringArrayValue(ll_cas.ll_getRefValue(addr, casFeatCode_argumentLabels), i, true);
     jcas.checkArrayBounds(ll_cas.ll_getRefValue(addr, casFeatCode_argumentLabels), i);
-	return ll_cas.ll_getStringArrayValue(ll_cas.ll_getRefValue(addr, casFeatCode_argumentLabels), i);
+  return ll_cas.ll_getStringArrayValue(ll_cas.ll_getRefValue(addr, casFeatCode_argumentLabels), i);
   }
    
   /** @generated
@@ -315,6 +315,30 @@ public class Token_Type extends Annotation_Type {
     ll_cas.ll_setStringValue(addr, casFeatCode_determiner, v);}
     
   
+ 
+  /** @generated */
+  final Feature casFeat_frequency;
+  /** @generated */
+  final int     casFeatCode_frequency;
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
+  public int getFrequency(int addr) {
+        if (featOkTst && casFeat_frequency == null)
+      jcas.throwFeatMissing("frequency", "edu.cmu.lti.oaqa.type.nlp.Token");
+    return ll_cas.ll_getIntValue(addr, casFeatCode_frequency);
+  }
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
+  public void setFrequency(int addr, int v) {
+        if (featOkTst && casFeat_frequency == null)
+      jcas.throwFeatMissing("frequency", "edu.cmu.lti.oaqa.type.nlp.Token");
+    ll_cas.ll_setIntValue(addr, casFeatCode_frequency, v);}
+    
+  
 
 
 
@@ -362,6 +386,10 @@ public class Token_Type extends Annotation_Type {
  
     casFeat_determiner = jcas.getRequiredFeatureDE(casType, "determiner", "uima.cas.String", featOkTst);
     casFeatCode_determiner  = (null == casFeat_determiner) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_determiner).getCode();
+
+ 
+    casFeat_frequency = jcas.getRequiredFeatureDE(casType, "frequency", "uima.cas.Integer", featOkTst);
+    casFeatCode_frequency  = (null == casFeat_frequency) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_frequency).getCode();
 
   }
 }

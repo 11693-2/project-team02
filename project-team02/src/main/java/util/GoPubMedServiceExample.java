@@ -1,6 +1,7 @@
 package util;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.http.client.ClientProtocolException;
@@ -9,15 +10,25 @@ import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
 import edu.cmu.lti.oaqa.bio.bioasq.services.LinkedLifeDataServiceResponse;
 import edu.cmu.lti.oaqa.bio.bioasq.services.OntologyServiceResponse;
 import edu.cmu.lti.oaqa.bio.bioasq.services.PubMedSearchServiceResponse;
+import edu.cmu.lti.oaqa.bio.bioasq.services.PubMedSearchServiceResponse.Document;
 
 public class GoPubMedServiceExample {
 
   public static void main(String[] args) throws ClientProtocolException, IOException,
           ConfigurationException {
-    // String text = "Is Rheumatoid Arthritis more common in men or women?";
-    String text = "Are there any DNMT3 proteins present in plants?";
+    String text = "Is Rheumatoid Arthritis more common in men or women?";
+    //String text = "Are there any DNMT3 proteins present in plants?";
+    text = text.replaceAll("\\pP", ""); //remove all punctuation
     GoPubMedService service = new GoPubMedService(args[0]);
-    OntologyServiceResponse.Result diseaseOntologyResult = service
+    /*OntologyServiceResponse.Result diseaseOntologyResult = service
+            .findMeshEntitiesPaged(text, 0);
+    for (OntologyServiceResponse.Finding finding : diseaseOntologyResult.getFindings()) {
+      System.out.println(" > " + finding.getConcept().getLabel() + " "
+              + finding.getConcept().getUri());
+      diseaseOntologyResult.getKeywords();
+    }
+    System.out.println(diseaseOntologyResult.getKeywords());*/
+    /*OntologyServiceResponse.Result diseaseOntologyResult = service
             .findDiseaseOntologyEntitiesPaged(text, 0);
     System.out.println("Disease ontology: " + diseaseOntologyResult.getFindings().size());
     for (OntologyServiceResponse.Finding finding : diseaseOntologyResult.getFindings()) {
@@ -60,8 +71,18 @@ public class GoPubMedServiceExample {
         System.out.println("   - sub: " + relation.getSubj());
         System.out.println("   - obj: " + relation.getObj());
       }
-    }
+    }*/
     PubMedSearchServiceResponse.Result pubmedResult = service.findPubMedCitations(text, 0);
     System.out.println(pubmedResult.getSize());
+    ArrayList<Document> list = (ArrayList<Document>) pubmedResult.getDocuments();
+    //System.out.println(list.get(0).getDocumentAbstract());
+    //System.out.println(list.get(0).getJournal());
+    for(int i=0; i<list.size(); i++){
+      String url = "http://www.ncbi.nlm.nih.gov/pubmed/" + list.get(i).getPmid();
+      System.out.println(url);
+    }
+    //System.out.println(list.get(0).getTitle());
+    //System.out.println(list.get(0).getMeshAnnotations().get(0).getTermLabel());
+    //System.out.println(list.get(0).getMeshAnnotations().get(0).getUri().getId());
   }
 }

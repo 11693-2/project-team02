@@ -167,8 +167,8 @@
 	</dependencies>
 
 	<scm>
-		<connection>scm:git:git@github.com:oaqa/DEIIS-project-archetype.git</connection>
-		<developerConnection>scm:git:git@github.com:oaqa/DEIIS-project-archetype.git</developerConnection>
+		<connection>scm:git:git@github.com/11693-2/project-team02.git</connection>
+		<developerConnection>scm:git:git@github.com/11693-2/project-team02.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 	<repositories>
@@ -193,4 +193,5 @@
 			<url>http://mu.lti.cs.cmu.edu:8081/nexus/content/repositories/course-snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
+	<description>https://github.com/11693-2/project-team02.git</description>
 </project>
