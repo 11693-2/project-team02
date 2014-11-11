@@ -4,16 +4,21 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.io.IOException;
 import java.io.Writer;
 import java.io.FileWriter;
 import java.io.File;
 
+import json.JsonCollectionReaderHelper;
+import json.gson.TestQuestion;
 import json.gson.TrainingSet;
 import json.gson.Question;
 import json.gson.TestSet;
+import json.gson.Triple;
 
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.FSIterator;
@@ -32,34 +37,27 @@ import edu.cmu.lti.oaqa.type.retrieval.TripleSearchResult;
 
 public class CasConsumer extends CasConsumer_ImplBase {
 
-	public static final String PATH = "Output";
-	public static final String Standard = "goldenstandard"; 
-	public String filePath;
-	public String standardPath;
-	private Writer fileWriter = null;
-	private List<Question> gold;
+	public static String OUTPUTPATH = "";
+	public static String GOLDPATH = ""; 
+	private Map<String, List<String>> docMap;
+	private Map<String, List<String>> conceptMap; 
+	private Map<String, List<Triple>> tripleMap; 
+	private List<TestQuestion> goldstandards;
+	private JsonCollectionReaderHelper jsonHelper;
 	
-	public void initialize() throws ResourceInitializationException {
-		filePath = (String) getConfigParameterValue(PATH);
-	    
-		if(filePath == null){
-			throw new ResourceInitializationException(
-				ResourceInitializationException.CONFIG_SETTING_ABSENT, 
-				new Object[] {"output file initialization fail"}
-			);	
+	public void initialize() throws ResourceInitializationException {		
+		jsonHelper = new JsonCollectionReaderHelper();
+		OUTPUTPATH = "output.json";
+		goldstandards = jsonHelper.testRun();
+		docMap = new HashMap<String, List<String>>();
+		conceptMap = new HashMap<String, List<String>>(); 
+		tripleMap = new HashMap<String, List<Triple>> (); 
+		for (int i = 0; i<goldstandards.size(); i++){
+			docMap.put(goldstandards.get(i).getId(), goldstandards.get(i).getDocuments());
+			conceptMap.put(goldstandards.get(i).getId(), goldstandards.get(i).getConcepts());
+			tripleMap.put(goldstandards.get(i).getId(), goldstandards.get(i).getTriples());
 		}
 		
-		try {
-	        fileWriter = new FileWriter(new File(filePath));
-	    
-	      } catch (IOException e) {
-	        e.printStackTrace();
-	      }
-
-		//get gloden standard file
-		standardPath  = (String) getConfigParameterValue(Standard);	
-		gold = TestSet.load(getClass().getResourceAsStream(standardPath)).stream().collect(toList());;
-		gold.stream().filter(input->input.getBody() != null).forEach(input->input.setBody(input.getBody().trim().replaceAll("\\s+", " ")));	
 	}
 
 	public void processCas(CAS aCAS) throws ResourceProcessException {
@@ -74,6 +72,25 @@ public class CasConsumer extends CasConsumer_ImplBase {
 		Collection<Document> docList = TypeUtil.getRankedDocuments(jcas);
 		Collection<ConceptSearchResult> conceptList = TypeUtil.getRankedConceptSearchResults(jcas);
 		Collection<TripleSearchResult> tripleList= TypeUtil.getRankedTripleSearchResults(jcas);
+		
+		List<String> docGold = docMap.get(qid);
+		List<String> conceptGold = conceptMap.get(qid);
+		List<Triple> tripleGold = tripleMap.get(qid);
+		
+		//compare the results...
+		/*
+		 * TODO: 
+		 * TotalPos
+		 * TotalNeg
+		 * Hit
+		 * Miss
+		 * Recall
+		 * Precision
+		 * 
+		 * */
+		
+		//print out results
+		/*
 		for (Document doc : docList){
 			System.out.println(doc.getText()+" score:"+doc.getScore());
 		}
@@ -83,6 +100,7 @@ public class CasConsumer extends CasConsumer_ImplBase {
 		for (TripleSearchResult triple : tripleList){
 			System.out.println(triple.getText()+" score:"+triple.getScore());
 		}
+		*/
 				
 	}
 
