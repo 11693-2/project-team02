@@ -8,7 +8,7 @@ public class Question {
 
   private String body;
 
-  private QuestionType type;
+  public QuestionType type;
 
   private List<String> documents;
 
@@ -29,7 +29,7 @@ public class Question {
     this.concepts = concepts;
     this.triples = triples;
   }
-
+  
   @Override
   public int hashCode() {
     final int prime = 31;
