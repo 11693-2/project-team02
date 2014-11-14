@@ -74,10 +74,11 @@ public class TripleAnnotator extends JCasAnnotator_ImplBase {
 		        
 		      }*/
 		      LinkedLifeDataServiceResponse.Relation relation = entity.getRelations().get(0);
-		      System.out.println("   - labels: " + relation.getLabels());
+		      /*System.out.println("   - labels: " + relation.getLabels());
 		        System.out.println("   - pred: " + relation.getPred());
 		        System.out.println("   - sub: " + relation.getSubj());
 		        System.out.println("   - obj: " + relation.getObj());
+		        */
 		      Triple triple = TypeFactory.createTriple(aJCas, relation.getSubj(), relation.getPred(), relation.getObj());
 		      triple.addToIndexes();
 		      
@@ -91,7 +92,7 @@ public class TripleAnnotator extends JCasAnnotator_ImplBase {
 		    }*/
 		    
 			
-			System.out.println("***********");
+			//System.out.println("***********");
 
 			iter.moveToNext();
 

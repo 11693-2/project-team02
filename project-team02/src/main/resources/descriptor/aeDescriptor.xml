@@ -12,6 +12,9 @@
     <delegateAnalysisEngine key="TripleAnnotatorDescriptor">
       <import name="descriptor.TripleAnnotatorDescriptor"/>
     </delegateAnalysisEngine>
+  <delegateAnalysisEngine key="QuestionModiDescriptor">
+      <import location="/Users/apple/Documents/project-team02/project-team02/src/main/resources/descriptor/QuestionModiDescriptor.xml"/>
+    </delegateAnalysisEngine>
   </delegateAnalysisEngineSpecifiers>
   <analysisEngineMetaData>
     <name>aeDescriptor</name>
@@ -22,9 +25,10 @@
     <configurationParameterSettings/>
     <flowConstraints>
       <fixedFlow>
+        <node>QuestionModiDescriptor</node>
         <node>ConceptAnnotatorDescriptor</node>
         <node>DocumentAnnotatorDescriptor</node>
-        <node>TripleAnnotatorDescriptor</node>
+      <node>TripleAnnotatorDescriptor</node>
       </fixedFlow>
     </flowConstraints>
     <typePriorities/>

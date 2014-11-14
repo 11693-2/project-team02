@@ -70,12 +70,14 @@ public class CollectionReader extends CollectionReader_ImplBase {
 		}
 		
 	    Question question = inputs.get(i);
-	    
-	   // System.out.println(i+" "+ inputs.get(i).getBody());
+	    //System.out.println("I am getting question!!!!!!!!");
+	    System.out.println(i+" "+ inputs.get(i).getBody());
+		System.out.println(i+" "+ inputs.get(i).getType());
+		if(inputs.get(i).getType().equals("YES_NO")){
+			JsonCollectionReaderHelper.addQuestionToIndex(question," ",jcas);
+			i++;
+		}
 		
-		JsonCollectionReaderHelper.addQuestionToIndex(question," ",jcas);
-		
-		i++;
 
 	}
 

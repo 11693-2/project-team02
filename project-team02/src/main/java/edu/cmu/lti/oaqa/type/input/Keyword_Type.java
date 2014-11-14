@@ -1,6 +1,6 @@
-
-/* First created by JCasGen Sat Oct 18 19:40:19 EDT 2014 */
 package edu.cmu.lti.oaqa.type.input;
+
+/* First created by JCasGen Fri Nov 14 00:06:10 EST 2014 */
 
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
@@ -13,10 +13,10 @@ import org.apache.uima.cas.impl.FeatureImpl;
 import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
-/** The Question and any associated meta-data.
+/** 
  * Updated by JCasGen Fri Nov 14 00:06:10 EST 2014
  * @generated */
-public class Question_Type extends Annotation_Type {
+public class Keyword_Type extends Annotation_Type {
   /** @generated 
    * @return the generator for this type
    */
@@ -26,25 +26,25 @@ public class Question_Type extends Annotation_Type {
   private final FSGenerator fsGenerator = 
     new FSGenerator() {
       public FeatureStructure createFS(int addr, CASImpl cas) {
-  			 if (Question_Type.this.useExistingInstance) {
+  			 if (Keyword_Type.this.useExistingInstance) {
   			   // Return eq fs instance if already created
-  		     FeatureStructure fs = Question_Type.this.jcas.getJfsFromCaddr(addr);
+  		     FeatureStructure fs = Keyword_Type.this.jcas.getJfsFromCaddr(addr);
   		     if (null == fs) {
-  		       fs = new Question(addr, Question_Type.this);
-  			   Question_Type.this.jcas.putJfsFromCaddr(addr, fs);
+  		       fs = new Keyword(addr, Keyword_Type.this);
+  			   Keyword_Type.this.jcas.putJfsFromCaddr(addr, fs);
   			   return fs;
   		     }
   		     return fs;
-        } else return new Question(addr, Question_Type.this);
+        } else return new Keyword(addr, Keyword_Type.this);
   	  }
     };
   /** @generated */
   @SuppressWarnings ("hiding")
-  public final static int typeIndexID = Question.typeIndexID;
+  public final static int typeIndexID = Keyword.typeIndexID;
   /** @generated 
      @modifiable */
   @SuppressWarnings ("hiding")
-  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("edu.cmu.lti.oaqa.type.input.Question");
+  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("Keyword");
  
   /** @generated */
   final Feature casFeat_id;
@@ -56,7 +56,7 @@ public class Question_Type extends Annotation_Type {
    */ 
   public String getId(int addr) {
         if (featOkTst && casFeat_id == null)
-      jcas.throwFeatMissing("id", "edu.cmu.lti.oaqa.type.input.Question");
+      jcas.throwFeatMissing("id", "Keyword");
     return ll_cas.ll_getStringValue(addr, casFeatCode_id);
   }
   /** @generated
@@ -65,7 +65,7 @@ public class Question_Type extends Annotation_Type {
    */    
   public void setId(int addr, String v) {
         if (featOkTst && casFeat_id == null)
-      jcas.throwFeatMissing("id", "edu.cmu.lti.oaqa.type.input.Question");
+      jcas.throwFeatMissing("id", "Keyword");
     ll_cas.ll_setStringValue(addr, casFeatCode_id, v);}
     
   
@@ -80,7 +80,7 @@ public class Question_Type extends Annotation_Type {
    */ 
   public String getSource(int addr) {
         if (featOkTst && casFeat_source == null)
-      jcas.throwFeatMissing("source", "edu.cmu.lti.oaqa.type.input.Question");
+      jcas.throwFeatMissing("source", "Keyword");
     return ll_cas.ll_getStringValue(addr, casFeatCode_source);
   }
   /** @generated
@@ -89,7 +89,7 @@ public class Question_Type extends Annotation_Type {
    */    
   public void setSource(int addr, String v) {
         if (featOkTst && casFeat_source == null)
-      jcas.throwFeatMissing("source", "edu.cmu.lti.oaqa.type.input.Question");
+      jcas.throwFeatMissing("source", "Keyword");
     ll_cas.ll_setStringValue(addr, casFeatCode_source, v);}
     
   
@@ -104,7 +104,7 @@ public class Question_Type extends Annotation_Type {
    */ 
   public String getQuestionType(int addr) {
         if (featOkTst && casFeat_questionType == null)
-      jcas.throwFeatMissing("questionType", "edu.cmu.lti.oaqa.type.input.Question");
+      jcas.throwFeatMissing("questionType", "Keyword");
     return ll_cas.ll_getStringValue(addr, casFeatCode_questionType);
   }
   /** @generated
@@ -113,7 +113,7 @@ public class Question_Type extends Annotation_Type {
    */    
   public void setQuestionType(int addr, String v) {
         if (featOkTst && casFeat_questionType == null)
-      jcas.throwFeatMissing("questionType", "edu.cmu.lti.oaqa.type.input.Question");
+      jcas.throwFeatMissing("questionType", "Keyword");
     ll_cas.ll_setStringValue(addr, casFeatCode_questionType, v);}
     
   
@@ -128,7 +128,7 @@ public class Question_Type extends Annotation_Type {
    */ 
   public String getText(int addr) {
         if (featOkTst && casFeat_text == null)
-      jcas.throwFeatMissing("text", "edu.cmu.lti.oaqa.type.input.Question");
+      jcas.throwFeatMissing("text", "Keyword");
     return ll_cas.ll_getStringValue(addr, casFeatCode_text);
   }
   /** @generated
@@ -137,7 +137,7 @@ public class Question_Type extends Annotation_Type {
    */    
   public void setText(int addr, String v) {
         if (featOkTst && casFeat_text == null)
-      jcas.throwFeatMissing("text", "edu.cmu.lti.oaqa.type.input.Question");
+      jcas.throwFeatMissing("text", "Keyword");
     ll_cas.ll_setStringValue(addr, casFeatCode_text, v);}
     
   
@@ -149,7 +149,7 @@ public class Question_Type extends Annotation_Type {
 	 * @param jcas JCas
 	 * @param casType Type 
 	 */
-  public Question_Type(JCas jcas, Type casType) {
+  public Keyword_Type(JCas jcas, Type casType) {
     super(jcas, casType);
     casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 
