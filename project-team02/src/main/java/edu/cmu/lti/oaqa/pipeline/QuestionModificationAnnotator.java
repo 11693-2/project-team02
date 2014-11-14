@@ -16,8 +16,12 @@ import org.apache.uima.cas.FSIterator;
 import org.apache.uima.collection.CollectionException;
 import org.apache.uima.jcas.JCas;
 
+import util.TypeFactory;
+import util.Utils;
 import edu.cmu.lti.oaqa.type.input.Keyword;
 import edu.cmu.lti.oaqa.type.input.Question;
+import edu.cmu.lti.oaqa.type.retrieval.AtomicQueryConcept;
+import edu.cmu.lti.oaqa.type.retrieval.ComplexQueryConcept;
 
 public class QuestionModificationAnnotator extends JCasAnnotator_ImplBase {
 
@@ -63,13 +67,29 @@ public class QuestionModificationAnnotator extends JCasAnnotator_ImplBase {
 				t = t + " " + word;	
 			}
 
-			//keywords store in cas 
-			Keyword keyword = new Keyword(aJCas);
-			keyword.setId(question.getId());
-			keyword.setQuestionType(question.getQuestionType());
-			keyword.setSource(question.getSource());
-			keyword.setText(t);
-			keyword.addToIndexes(aJCas);
+			// AtomicQueryConcept to cas
+			AtomicQueryConcept atomic = new AtomicQueryConcept(aJCas); 
+			atomic.setText(t);
+			atomic.setOriginalText(question.getText());
+			atomic.addToIndexes();
+			
+			List<AtomicQueryConcept> list = new ArrayList<AtomicQueryConcept>();
+			list.add(atomic);
+			
+			
+			// ComplexQueryConcept to cas
+			//ComplexQueryConcept complex = new ComplexQueryConcept(aJCas); 
+			//complex.setOperatorArgs(Utils.fromCollectionToFSList(aJCas, list));
+			//complex.addToIndexes();
+			
+//			not use anymore...		
+//			keywords store in cas 
+//			Keyword keyword = new Keyword(aJCas);
+//			keyword.setId(question.getId());
+//			keyword.setQuestionType(question.getQuestionType());
+//			keyword.setSource(question.getSource());
+//			keyword.setText(t);
+//			keyword.addToIndexes(aJCas);
 			
 		}
 		

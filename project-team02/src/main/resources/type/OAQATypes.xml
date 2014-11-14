@@ -735,32 +735,5 @@
       <description/>
       <supertypeName>edu.cmu.lti.oaqa.type.kb.Concept</supertypeName>
     </typeDescription>
-  <typeDescription>
-      <name>Keyword</name>
-      <description/>
-      <supertypeName>uima.tcas.Annotation</supertypeName>
-      <features>
-        <featureDescription>
-          <name>id</name>
-          <description/>
-          <rangeTypeName>uima.cas.String</rangeTypeName>
-        </featureDescription>
-        <featureDescription>
-          <name>source</name>
-          <description/>
-          <rangeTypeName>uima.cas.String</rangeTypeName>
-        </featureDescription>
-        <featureDescription>
-          <name>questionType</name>
-          <description/>
-          <rangeTypeName>edu.cmu.lti.oaqa.type.input.QuestionType</rangeTypeName>
-        </featureDescription>
-        <featureDescription>
-          <name>text</name>
-          <description/>
-          <rangeTypeName>uima.cas.String</rangeTypeName>
-        </featureDescription>
-      </features>
-    </typeDescription>
   </types>
 </typeSystemDescription>
