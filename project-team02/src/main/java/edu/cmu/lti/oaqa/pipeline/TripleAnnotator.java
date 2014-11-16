@@ -2,19 +2,28 @@ package edu.cmu.lti.oaqa.pipeline;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FSIterator;
+import org.apache.uima.fit.util.FSCollectionFactory;
+import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 
+import util.TypeConstants;
 import util.TypeFactory;
+import util.TypeUtil;
 import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
 import edu.cmu.lti.oaqa.bio.bioasq.services.LinkedLifeDataServiceResponse;
+import edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.kb.Triple;
+import edu.cmu.lti.oaqa.type.retrieval.ConceptSearchResult;
+import edu.cmu.lti.oaqa.type.retrieval.TripleSearchResult;
 
 public class TripleAnnotator extends JCasAnnotator_ImplBase {
 
@@ -27,74 +36,68 @@ public class TripleAnnotator extends JCasAnnotator_ImplBase {
 		 */
 		FSIterator iter = aJCas.getAnnotationIndex(Question.type).iterator();
 
-		List<String> uri = new ArrayList<String>();
-		uri.clear();
-
 		// iterate
-		while (iter.isValid()) {
+		if (iter.hasNext()) {
 
 			// get the Question type
-			Question a = (Question) iter.get();
+			Question a = (Question) iter.next();
 
 			String docText = a.getText();
 			String text = docText.replace("?", "");
 
 			System.out.println(text);
-			
+
 			GoPubMedService service = null;
 
-			//Triple triple = new Triple(aJCas);
-			
 			try {
 				service = new GoPubMedService("project.properties");
 			} catch (ConfigurationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			LinkedLifeDataServiceResponse.Result linkedLifeDataResult = null;
 			try {
-				linkedLifeDataResult = service
-				        .findLinkedLifeDataEntitiesPaged(text, 0);
+				linkedLifeDataResult = service.findLinkedLifeDataEntitiesPaged(text, 0);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		    System.out.println("LinkedLifeData: " + linkedLifeDataResult.getEntities().size());
-		    for (LinkedLifeDataServiceResponse.Entity entity : linkedLifeDataResult.getEntities()) {
-		      System.out.println(" > " + entity.getEntity());
-		     /* for (LinkedLifeDataServiceResponse.Relation relation : entity.getRelations()) {
-		        System.out.println("   - labels: " + relation.getLabels());
-		        System.out.println("   - pred: " + relation.getPred());
-		        System.out.println("   - sub: " + relation.getSubj());
-		        System.out.println("   - obj: " + relation.getObj());
-		        
-		        Triple triple = TypeFactory.createTriple(aJCas, relation.getSubj(), relation.getPred(), relation.getObj());
-		        triple.addToIndexes();
-		        
-		      }*/
-		      LinkedLifeDataServiceResponse.Relation relation = entity.getRelations().get(0);
-		      System.out.println("   - labels: " + relation.getLabels());
-		        System.out.println("   - pred: " + relation.getPred());
-		        System.out.println("   - sub: " + relation.getSubj());
-		        System.out.println("   - obj: " + relation.getObj());
-		      Triple triple = TypeFactory.createTriple(aJCas, relation.getSubj(), relation.getPred(), relation.getObj());
-		      triple.addToIndexes();
-		      
-		    }
-			
-		   /* System.out.println(pubmedResult.getSize());
-		    for(PubMedSearchServiceResponse.Document documents : pubmedResult.getDocuments()){
-		    	 //System.out.println(" >>>>>>>>>>>>>> " + documents.getPmid());
-		    	 doc.setDocId(documents.getPmid());
-				 doc.setTitle(documents.getTitle());
-		    }*/
-		    
-			
-			System.out.println("***********");
 
-			iter.moveToNext();
+			int rank = 1;
 
+			System.out.println("LinkedLifeData: " + linkedLifeDataResult.getEntities().size());
+
+			for (LinkedLifeDataServiceResponse.Entity entity : linkedLifeDataResult.getEntities()) {
+				System.out.println(" > " + entity.getEntity());
+				LinkedLifeDataServiceResponse.Relation relation = entity.getRelations().get(0);
+				Triple triple = TypeFactory.createTriple(aJCas, relation.getSubj(), relation.getPred(),
+						relation.getObj());
+				TripleSearchResult triple_result = TypeFactory.createTripleSearchResult(aJCas, triple);
+				triple_result.setRank(rank);
+				triple_result.setScore(entity.getScore());
+				triple_result.addToIndexes(aJCas);
+				rank++;
+			}
+
+			/************************************************************************/
+			Collection<TripleSearchResult> cs = TypeUtil.getRankedTripleSearchResults(aJCas);
+
+			Collection<TripleSearchResult> result = TypeUtil.rankedSearchResultsByScore(
+					JCasUtil.select(aJCas, TripleSearchResult.class), cs.size());
+
+			System.err.println("result size(in consumer):" + result.size());
+
+			Iterator<TripleSearchResult> it = result.iterator();
+			rank = 1;
+			while (it.hasNext()) {
+				TripleSearchResult csr = (TripleSearchResult) it.next();
+				csr.setRank(rank);
+				rank++;
+				/*System.err.println("CAS score:" + csr.getScore() + " rank:" + csr.getRank() + " subject: "
+						+ csr.getTriple().getSubject() + " preject: " + csr.getTriple().getPredicate() + " object:"
+						+ csr.getTriple().getObject());*/
+			}
 		}
 
 	}

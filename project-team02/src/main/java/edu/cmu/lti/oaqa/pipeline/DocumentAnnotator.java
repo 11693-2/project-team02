@@ -10,6 +10,7 @@ import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
 
+import util.TypeFactory;
 import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
 import edu.cmu.lti.oaqa.bio.bioasq.services.PubMedSearchServiceResponse;
 import edu.cmu.lti.oaqa.type.input.Question;
@@ -27,7 +28,7 @@ public class DocumentAnnotator extends JCasAnnotator_ImplBase {
 
 
 		// iterate
-		while (iter.isValid()) {
+		if (iter.isValid()) {
 
 			// get the Question type
 			Question a = (Question) iter.get();
@@ -39,7 +40,6 @@ public class DocumentAnnotator extends JCasAnnotator_ImplBase {
 			
 			GoPubMedService service = null;
 
-			Document doc = new Document(aJCas);
 			
 			try {
 				service = new GoPubMedService("project.properties");
@@ -56,17 +56,21 @@ public class DocumentAnnotator extends JCasAnnotator_ImplBase {
 				e.printStackTrace();
 			}
 			
+			
+			
+	          
+	          int rank=1;
 		    System.out.println(pubmedResult.getSize());
 		    for(PubMedSearchServiceResponse.Document documents : pubmedResult.getDocuments()){
-		    	 //System.out.println(" >>>>>>>>>>>>>> " + documents.getPmid());
-		    	 doc.setDocId(documents.getPmid());
-				 doc.setTitle(documents.getTitle());
-		    }
-		    
-		  
-			doc.addToIndexes();
+		    	// System.out.println(" >>>>>>>>>>>>>> " + documents.getPmid());
+		    	String m="http://www.ncbi.nlm.nih.gov/pubmed/"+documents.getPmid();
+				 Document doc=TypeFactory.createDocument(aJCas,m,"xxxx",rank,"cccc",documents.getPmid(),documents.getPmid());
+				 rank++;
+				 doc.addToIndexes();
 			
-			System.out.println("***********");
+		    }
+			
+			//System.out.println("***********");
 
 			iter.moveToNext();
 

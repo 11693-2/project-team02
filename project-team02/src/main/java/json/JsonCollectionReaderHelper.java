@@ -34,7 +34,7 @@ public class JsonCollectionReaderHelper {
 		jsHelper.testRun();
 	}
 
-	public void testRun() {
+	public List<TestQuestion> testRun() {
 		String filePath = "/BioASQ-SampleData1B.json";
 		List<TestQuestion> inputs;
 		inputs = Lists.newArrayList();
@@ -67,6 +67,7 @@ public class JsonCollectionReaderHelper {
 								.replaceAll("\\s+", " ")));
 		System.out.println("concepts");
 		System.out.println(inputs.get(0).getConcepts());
+		return inputs;
 	}
 
 	public static void addQuestionToIndex(Question input, String source,
