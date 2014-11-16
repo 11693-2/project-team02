@@ -37,7 +37,7 @@ public class TripleAnnotator extends JCasAnnotator_ImplBase {
 		FSIterator iter = aJCas.getAnnotationIndex(Question.type).iterator();
 
 		// iterate
-		if (iter.hasNext()) {
+		if (iter.hasNext()&&iter.isValid()) {
 
 			// get the Question type
 			Question a = (Question) iter.next();
@@ -66,10 +66,10 @@ public class TripleAnnotator extends JCasAnnotator_ImplBase {
 
 			int rank = 1;
 
-			System.out.println("LinkedLifeData: " + linkedLifeDataResult.getEntities().size());
+			//System.out.println("LinkedLifeData: " + linkedLifeDataResult.getEntities().size());
 
 			for (LinkedLifeDataServiceResponse.Entity entity : linkedLifeDataResult.getEntities()) {
-				System.out.println(" > " + entity.getEntity());
+				//System.out.println(" > " + entity.getEntity());
 				LinkedLifeDataServiceResponse.Relation relation = entity.getRelations().get(0);
 				Triple triple = TypeFactory.createTriple(aJCas, relation.getSubj(), relation.getPred(),
 						relation.getObj());
