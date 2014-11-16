@@ -94,9 +94,7 @@ public class TripleAnnotator extends JCasAnnotator_ImplBase {
 				TripleSearchResult csr = (TripleSearchResult) it.next();
 				csr.setRank(rank);
 				rank++;
-				/*System.err.println("CAS score:" + csr.getScore() + " rank:" + csr.getRank() + " subject: "
-						+ csr.getTriple().getSubject() + " preject: " + csr.getTriple().getPredicate() + " object:"
-						+ csr.getTriple().getObject());*/
+				
 			}
 		}
 
