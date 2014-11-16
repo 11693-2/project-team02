@@ -77,10 +77,10 @@ public class QuestionModificationAnnotator extends JCasAnnotator_ImplBase {
 			list.add(atomic);
 			
 			
-			// ComplexQueryConcept to cas
-			//ComplexQueryConcept complex = new ComplexQueryConcept(aJCas); 
-			//complex.setOperatorArgs(Utils.fromCollectionToFSList(aJCas, list));
-			//complex.addToIndexes();
+			//ComplexQueryConcept to cas
+			ComplexQueryConcept complex = new ComplexQueryConcept(aJCas); 
+			complex.setOperatorArgs(Utils.fromCollectionToFSList(aJCas, list));
+			complex.addToIndexes();
 			
 //			not use anymore...		
 //			keywords store in cas 

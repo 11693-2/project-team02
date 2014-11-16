@@ -50,7 +50,7 @@ public class Utils {
 	 		return list;
 	 	}
 	
-	public static <T extends Annotation> FSList fromCollectionToFSList(JCas aJCas,
+	public static <T extends TOP> FSList fromCollectionToFSList(JCas aJCas,
 			Collection<T> aCollection) {
 		if (aCollection.size() == 0) {
 			return new EmptyFSList(aJCas);
