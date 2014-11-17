@@ -20,6 +20,8 @@
       <capability>
         <inputs>
           <type allAnnotatorFeatures="true">edu.cmu.lti.oaqa.type.input.Question</type>
+        <type allAnnotatorFeatures="true">edu.cmu.lti.oaqa.type.retrieval.ComplexQueryConcept</type>
+          <type allAnnotatorFeatures="true">edu.cmu.lti.oaqa.type.retrieval.AtomicQueryConcept</type>
         </inputs>
         <outputs>
           <type allAnnotatorFeatures="true">edu.cmu.lti.oaqa.type.kb.Triple</type>

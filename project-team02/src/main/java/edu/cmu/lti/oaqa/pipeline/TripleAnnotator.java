@@ -22,6 +22,7 @@ import edu.cmu.lti.oaqa.bio.bioasq.services.LinkedLifeDataServiceResponse;
 import edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.kb.Triple;
+import edu.cmu.lti.oaqa.type.retrieval.AtomicQueryConcept;
 import edu.cmu.lti.oaqa.type.retrieval.ConceptSearchResult;
 import edu.cmu.lti.oaqa.type.retrieval.TripleSearchResult;
 
@@ -34,13 +35,13 @@ public class TripleAnnotator extends JCasAnnotator_ImplBase {
 		 * define an iterator to traverse the content of the cas in form of the
 		 * Question Type
 		 */
-		FSIterator iter = aJCas.getAnnotationIndex(Question.type).iterator();
+		FSIterator iter = aJCas.getAnnotationIndex(AtomicQueryConcept.type).iterator();
 
 		// iterate
 		if (iter.hasNext()&&iter.isValid()) {
 
 			// get the Question type
-			Question a = (Question) iter.next();
+			AtomicQueryConcept a = (AtomicQueryConcept) iter.next();
 
 			String docText = a.getText();
 			String text = docText.replace("?", "");

@@ -12,19 +12,23 @@
     <delegateAnalysisEngine key="TripleAnnotatorDescriptor">
       <import name="descriptor.TripleAnnotatorDescriptor"/>
     </delegateAnalysisEngine>
+  <delegateAnalysisEngine key="QuestionAnnotatorDescriptor">
+      <import name="descriptor.QuestionAnnotatorDescriptor"/>
+    </delegateAnalysisEngine>
   </delegateAnalysisEngineSpecifiers>
   <analysisEngineMetaData>
     <name>aeDescriptor</name>
     <description/>
     <version>1.0</version>
     <vendor/>
-    <configurationParameters/>
+    <configurationParameters searchStrategy="language_fallback"/>
     <configurationParameterSettings/>
     <flowConstraints>
       <fixedFlow>
+        <node>QuestionAnnotatorDescriptor</node>
         <node>ConceptAnnotatorDescriptor</node>
         <node>DocumentAnnotatorDescriptor</node>
-        <node>TripleAnnotatorDescriptor</node>
+      <node>TripleAnnotatorDescriptor</node>
       </fixedFlow>
     </flowConstraints>
     <typePriorities/>
