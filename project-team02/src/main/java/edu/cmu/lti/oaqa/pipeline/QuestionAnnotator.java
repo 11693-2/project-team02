@@ -1,18 +1,14 @@
 package edu.cmu.lti.oaqa.pipeline;
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import java.util.List;
-
 
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
-
 import org.apache.uima.cas.FSIterator;
-
 import org.apache.uima.jcas.JCas;
 
 import util.StanfordLemmatizer;
-
 import util.StopWordRemover;
 import util.Utils;
 //import util.Utils;
@@ -27,7 +23,7 @@ public class QuestionAnnotator extends JCasAnnotator_ImplBase {
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
 		// TODO Auto-generated method stub
 		
-		//remove punctuations and stopwords in questions
+		
 		FSIterator iter = aJCas.getAnnotationIndex(Question.type).iterator();
 		while (iter.isValid()){
 			Question question = (Question)iter.get();
@@ -41,12 +37,21 @@ public class QuestionAnnotator extends JCasAnnotator_ImplBase {
 			OpenNLPTokenization OpenNLPTokenizer = OpenNLPTokenization.getInstance();
 			List<String> wordList = new ArrayList<String>();
 			wordList = OpenNLPTokenizer.tokenize(stemmedQue);
-			String t = "";
-			for(String word : wordList){
-				t = t + " " + word;	
+			
+			HashMap<String, Integer> tokenMap = new HashMap<String, Integer>();
+			for (String token: wordList){
+				if (tokenMap.containsKey(token)){
+					tokenMap.put(token, tokenMap.get(token)+1);
+				}else{
+					tokenMap.put(token, 1);	
+				}
 			}
 			
 			// AtomicQueryConcept to cas
+			String t = "";
+			for(String key : tokenMap.keySet()){
+				t = t + " " + key;	
+			}
 			AtomicQueryConcept atomic = new AtomicQueryConcept(aJCas); 
 			atomic.setText(t);
 			atomic.setOriginalText(question.getText());
