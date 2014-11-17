@@ -51,17 +51,16 @@ public class Evaluator {
     for (int i = 0; i < docGold.size(); i++) {
       String str = docGold.get(i);
       goldSet.add(str);
-      System.out.println("| golden: " + str);
+      //System.out.println("| golden: " + str);
     }
 
     double avgPrecision = 0.0;
     int counter = 0;
     int positiveNum = 0;
     for (Document doc : docList) {
-      // TODO: change docId to other feature
+      // TODO: may change docId to other feature
       counter++;
-      //nx.add("http://www.ncbi.nlm.nih.gov/pubmed/" + doc.getDocId());
-      System.out.println("| doc: http://www.ncbi.nlm.nih.gov/pubmed/" + doc.getDocId());
+      //System.out.println("| document ans: http://www.ncbi.nlm.nih.gov/pubmed/" + doc.getDocId());
       if (goldSet.contains("http://www.ncbi.nlm.nih.gov/pubmed/" + doc.getDocId())) {
         positiveNum++;
         avgPrecision += (double) positiveNum / counter;
@@ -71,7 +70,9 @@ public class Evaluator {
       avgPrecision /= counter;
     }
     System.out.println("| AVG Precision: " + avgPrecision);
-    avgPrecisionArr.add(avgPrecision);
+    if(avgPrecision > 0.00001){
+      avgPrecisionArr.add(avgPrecision);
+    }
 
     totalDoc += docList.size();
     supposeDoc += docGold.size();
@@ -81,6 +82,42 @@ public class Evaluator {
     return positiveNum;
   }
 
+  public int calConceptPositive(Collection<ConceptSearchResult> conceptList, List<String> docGold) {
+    Set<String> goldSet = new HashSet<String>();
+
+    for (int i = 0; i < docGold.size(); i++) {
+      String str = docGold.get(i);
+      goldSet.add(str);
+      //System.out.println("| golden: " + str);
+    }
+
+    double avgPrecision = 0.0;
+    int counter = 0;
+    int positiveNum = 0;
+    for (ConceptSearchResult concept : conceptList) {
+      counter++;
+      //System.out.println("| concept ans: " + concept.getUri());
+      if (goldSet.contains(concept.getUri())) {
+        positiveNum++;
+        avgPrecision += (double) positiveNum / counter;
+      }
+    }
+    if(counter != 0){
+      avgPrecision /= counter;
+    }
+    System.out.println("| AVG Precision: " + avgPrecision);
+    if(avgPrecision > 0.00001){
+      avgPrecisionArr.add(avgPrecision);
+    }
+
+    totalConcept += conceptList.size();
+    supposeConcept += docGold.size();
+
+    // get intersection of two sets
+    posConcept += positiveNum;
+    return positiveNum;
+  }
+  
   /**
    * Currently just sum up all three categories of result
    * 

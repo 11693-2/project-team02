@@ -89,11 +89,15 @@ public class CasConsumer extends CasConsumer_ImplBase {
     List<Triple> tripleGold = tripleMap.get(qid);
 
     System.out.println("------------------------------------------");
-    System.out.println("| Evaluatation for question" + qid);
+    System.out.println("| Evaluatation");
     System.out.println("| size -> doc: " + docList.size() + " , concept: " + conceptList.size()
             + " , triple: " + tripleList.size());
-    System.out.println("| doc size: "+docList.size()+ " | gold ans size:" + docGold.size());
+    System.out.println("|-----------document----------------------");
+    System.out.println("| doc ans size: "+docList.size()+ " | gold ans size:" + docGold.size());
     System.out.println("| postive: "+evaluator.calDocPositive(docList, docGold));
+    System.out.println("|-----------concept----------------------");
+    System.out.println("| concept ans size: "+conceptList.size()+ " | gold ans size:" + conceptGold.size());
+    System.out.println("| postive: "+evaluator.calConceptPositive(conceptList, conceptGold));
     System.out.println("------------------------------------------");
 
     // print out results
@@ -104,15 +108,15 @@ public class CasConsumer extends CasConsumer_ImplBase {
      * triple : tripleList){ System.out.println(triple.getText()+" score:"+triple.getScore()); }
      */
     
- /*   for (ConceptSearchResult concept : conceptList){
+     /*for (ConceptSearchResult concept : conceptList){
         System.err.println(concept.getUri()+" rank:"+concept.getRank()+" score:"+ concept.getScore()); 
      }*/
     
-    for (TripleSearchResult csr : tripleList){ 
+    /*for (TripleSearchResult csr : tripleList){ 
     	System.err.println("score:" + csr.getScore() + " rank:" + csr.getRank() + " subject: "
 		+ csr.getTriple().getSubject() + " preject: " + csr.getTriple().getPredicate() + " object:"
 		+ csr.getTriple().getObject());
-    }
+    }*/
 
   }
   
