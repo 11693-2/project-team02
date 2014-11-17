@@ -14,6 +14,7 @@ import util.TypeFactory;
 import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
 import edu.cmu.lti.oaqa.bio.bioasq.services.PubMedSearchServiceResponse;
 import edu.cmu.lti.oaqa.type.input.Question;
+import edu.cmu.lti.oaqa.type.retrieval.AtomicQueryConcept;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
 
 public class DocumentAnnotator extends JCasAnnotator_ImplBase {
@@ -24,14 +25,14 @@ public class DocumentAnnotator extends JCasAnnotator_ImplBase {
 		 * define an iterator to traverse the content of the cas in form of the
 		 * Question Type
 		 */
-		FSIterator iter = aJCas.getAnnotationIndex(Question.type).iterator();
+		FSIterator iter = aJCas.getAnnotationIndex(AtomicQueryConcept.type).iterator();
 
 
 		// iterate
 		if (iter.isValid()) {
 
 			// get the Question type
-			Question a = (Question) iter.get();
+			AtomicQueryConcept a = (AtomicQueryConcept) iter.get();
 
 			String docText = a.getText();
 			String text = docText.replace("?", "");
