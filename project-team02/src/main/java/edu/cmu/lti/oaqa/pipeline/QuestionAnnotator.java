@@ -23,20 +23,29 @@ public class QuestionAnnotator extends JCasAnnotator_ImplBase {
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
 		// TODO Auto-generated method stub
 		
+		System.err.println("questionannotator");
 		
 		FSIterator iter = aJCas.getAnnotationIndex(Question.type).iterator();
-		while (iter.isValid()){
-			Question question = (Question)iter.get();
+		if (iter.hasNext()){
+			Question question = (Question)iter.next();
 			String queText = question.getText();
+			
+			 queText = queText.replace("?", "");
+			
 			// stem words with StanfordLemmatizer
-			String stemmedQue = StanfordLemmatizer.stemText(queText);
+		/*	String stemmedQue = StanfordLemmatizer.stemText(queText);
+			
+			
 			// remove stop words by StopWordRemover
 			StopWordRemover stopWordRemover = StopWordRemover.getInstance();
 			String StopRemovedQue = stopWordRemover.removeStopWords(stemmedQue);
+			
+			System.err.println("fin11111111:"+ StopRemovedQue);
+			
 			// tokenize question with OpenNLP
 			OpenNLPTokenization OpenNLPTokenizer = OpenNLPTokenization.getInstance();
 			List<String> wordList = new ArrayList<String>();
-			wordList = OpenNLPTokenizer.tokenize(stemmedQue);
+			wordList = OpenNLPTokenizer.tokenize(StopRemovedQue);
 			
 			HashMap<String, Integer> tokenMap = new HashMap<String, Integer>();
 			for (String token: wordList){
@@ -47,24 +56,33 @@ public class QuestionAnnotator extends JCasAnnotator_ImplBase {
 				}
 			}
 			
+			
 			// AtomicQueryConcept to cas
 			String t = "";
 			for(String key : tokenMap.keySet()){
 				t = t + " " + key;	
+				System.err.println("fin:"+ t);
 			}
+			
+			System.err.println("final:"+ t);
+			*/
+			 
 			AtomicQueryConcept atomic = new AtomicQueryConcept(aJCas); 
-			atomic.setText(t);
+			atomic.setText(queText);
 			atomic.setOriginalText(question.getText());
-			atomic.addToIndexes();
+			atomic.addToIndexes(aJCas);
+			System.err.println("finish1");
 			
 			//ComplexQueryConcept to cas
-			List<AtomicQueryConcept> list = new ArrayList<AtomicQueryConcept>();
+			/*List<AtomicQueryConcept> list = new ArrayList<AtomicQueryConcept>();
 			list.add(atomic);
 			ComplexQueryConcept complex = new ComplexQueryConcept(aJCas); 
 			complex.setOperatorArgs(Utils.fromCollectionToFSList(aJCas, list));
-			complex.addToIndexes();
+			complex.addToIndexes();*/
 			
 		}
+		
+		System.err.println("finish");
 		
 		
 		
