@@ -52,7 +52,7 @@ public class CasConsumer extends CasConsumer_ImplBase {
 
   private JsonCollectionReaderHelper jsonHelper;
 
-  private evaluator evaluator;
+  private Evaluator evaluator;
   
   public void initialize() throws ResourceInitializationException {
     jsonHelper = new JsonCollectionReaderHelper();
@@ -68,7 +68,7 @@ public class CasConsumer extends CasConsumer_ImplBase {
       tripleMap.put(goldstandards.get(i).getId(), goldstandards.get(i).getTriples());
     }
 
-    evaluator = new evaluator();
+    evaluator = new Evaluator();
   }
 
   public void processCas(CAS aCAS) throws ResourceProcessException {
@@ -89,23 +89,12 @@ public class CasConsumer extends CasConsumer_ImplBase {
     List<Triple> tripleGold = tripleMap.get(qid);
 
     System.out.println("------------------------------------------");
-    System.out.println("| Evaluator");
+    System.out.println("| Evaluatation for question" + qid);
     System.out.println("| size -> doc: " + docList.size() + " , concept: " + conceptList.size()
             + " , triple: " + tripleList.size());
     System.out.println("| doc size: "+docList.size()+ " | gold ans size:" + docGold.size());
     System.out.println("| postive: "+evaluator.calDocPositive(docList, docGold));
     System.out.println("------------------------------------------");
-
-    // compare the results...
-    /*
-     * TODO: 
-     * TotalPos 
-     * TotalNeg: = size - postive ? 
-     * Hit 
-     * Miss 
-     * Recall 
-     * Precision
-     */
 
     // print out results
     /*
@@ -135,9 +124,11 @@ public class CasConsumer extends CasConsumer_ImplBase {
           IOException {
     System.out.println("-------------------------------------");
     System.out.println("| Performance Report");
-    System.out.println("| Performance: " + evaluator.getPrecision());
+    System.out.println("| Precision: " + evaluator.getPrecision());
     System.out.println("| Recall: " + evaluator.getRecall());
     System.out.println("| F-Score: " + evaluator.getFScore());
+    System.out.println("| Mean Average Precison: " + evaluator.getMAP());
+    System.out.println("| Geometric Mean Average Precison: " + evaluator.getGMAP());
     System.out.println("-------------------------------------");
   }
   
