@@ -91,6 +91,7 @@ public class QuestionAnnotator extends JCasAnnotator_ImplBase {
 			// stop words list from input file
 			// regular expression for punctuation removal
 			// stop words list for stop word removal
+			/**delete the stop word, except"in"*/
 			
 			String t = null;
 			for (String word : wordList) {

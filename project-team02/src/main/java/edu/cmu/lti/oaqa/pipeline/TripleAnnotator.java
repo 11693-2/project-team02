@@ -34,7 +34,8 @@ import edu.cmu.lti.oaqa.type.retrieval.TripleSearchResult;
 public class TripleAnnotator extends JCasAnnotator_ImplBase {
 	
 
-	GoPubMedService service=null;
+	public GoPubMedService service=null;
+	public LinkedLifeDataServiceResponse.Result linkedLifeDataResult = null;
 	
 	
 	public void initialize(UimaContext aContext) throws ResourceInitializationException{
@@ -55,7 +56,7 @@ public class TripleAnnotator extends JCasAnnotator_ImplBase {
 		 * define an iterator to traverse the content of the cas in form of the
 		 * Question Type
 		 */
-		//FSIterator iter = aJCas.getAnnotationIndex(Question.type).iterator();
+		
 	    FSIterator<TOP> iter = aJCas.getJFSIndexRepository().getAllIndexedFS
 	    		(AtomicQueryConcept.type);
 	    
@@ -71,7 +72,6 @@ public class TripleAnnotator extends JCasAnnotator_ImplBase {
 			System.out.println(text);
 			
 			/***************************************/
-			LinkedLifeDataServiceResponse.Result linkedLifeDataResult = null;
 			try {
 				linkedLifeDataResult = service.findLinkedLifeDataEntitiesPaged(text, 0);
 			} catch (IOException e) {
@@ -85,6 +85,8 @@ public class TripleAnnotator extends JCasAnnotator_ImplBase {
 
 			for (LinkedLifeDataServiceResponse.Entity entity : linkedLifeDataResult.getEntities()) {
 				//System.out.println(" > " + entity.getEntity());
+				if(entity==null) break;
+		
 				LinkedLifeDataServiceResponse.Relation relation = entity.getRelations().get(0);
 				Triple triple = TypeFactory.createTriple(aJCas, relation.getSubj(), relation.getPred(),
 						relation.getObj());

@@ -24,7 +24,8 @@ import edu.cmu.lti.oaqa.type.retrieval.Document;
 
 public class DocumentAnnotator extends JCasAnnotator_ImplBase {
 	
-GoPubMedService service=null;
+		public GoPubMedService service=null;
+		public PubMedSearchServiceResponse.Result pubmedResult=null;
 	
 	
 	public void initialize(UimaContext aContext) throws ResourceInitializationException{
@@ -36,7 +37,8 @@ GoPubMedService service=null;
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		  }
+		
+}
 	
 
 	@Override
@@ -60,17 +62,13 @@ GoPubMedService service=null;
 
 			System.out.println(text);
 			
-			/********************************************************************/
-			
-			PubMedSearchServiceResponse.Result pubmedResult = null;
-			try {
+			/********************************************************************/			
+			 try {
 				pubmedResult = service.findPubMedCitations(text, 0);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-	          
+          
 	          int rank=1;
 		    
 	          System.err.println("document size:"+ pubmedResult.getSize());
