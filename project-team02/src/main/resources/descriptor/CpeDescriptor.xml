@@ -8,9 +8,9 @@
         </collectionIterator>
     </collectionReader>
     <casProcessors casPoolSize="3" processingUnitThreadCount="1">
-        <casProcessor deployment="integrated" name="aeDescriptor">
+        <casProcessor deployment="integrated" name="aeDescriptor1">
             <descriptor>
-                <import location="aeDescriptor.xml"/>
+                <import location="aeDescriptor1.xml"/>
             </descriptor>
             <deploymentParameters/>
             <errorHandling>

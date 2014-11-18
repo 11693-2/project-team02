@@ -66,34 +66,10 @@ public class TripleAnnotator extends JCasAnnotator_ImplBase {
 			AtomicQueryConcept a = (AtomicQueryConcept) iter.next();
 
 			String docText = a.getText();
-			String text = docText.replace("?", "");
+			String text = docText;
 
 			System.out.println(text);
 			
-/************************************************************************/
-			
-			String queText=text;
-			String stemmedQue = StanfordLemmatizer.stemText(queText);
-			
-			
-			// remove stop words by StopWordRemover
-			StopWordRemover stopWordRemover = StopWordRemover.getInstance();
-			String StopRemovedQue = stopWordRemover.removeStopWords(stemmedQue);
-			
-			text=stemmedQue;
-
-			/************************************************************************/
-
-		/*	GoPubMedService service = null;
-
-			try {
-				service = new GoPubMedService("project.properties");
-			} catch (ConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			*/
-
 			/***************************************/
 			LinkedLifeDataServiceResponse.Result linkedLifeDataResult = null;
 			try {
@@ -125,7 +101,7 @@ public class TripleAnnotator extends JCasAnnotator_ImplBase {
 			Collection<TripleSearchResult> result = TypeUtil.rankedSearchResultsByScore(
 					JCasUtil.select(aJCas, TripleSearchResult.class), cs.size());
 
-			System.err.println("result size(in consumer):" + result.size());
+			System.err.println("triple result size(in consumer):" + result.size());
 
 			Iterator<TripleSearchResult> it = result.iterator();
 			rank = 1;

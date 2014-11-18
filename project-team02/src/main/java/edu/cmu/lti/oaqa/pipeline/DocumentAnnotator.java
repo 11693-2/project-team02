@@ -50,40 +50,16 @@ GoPubMedService service=null;
 	    		(AtomicQueryConcept.type);
 
 		// iterate
-		if (iter.isValid()) {
+		if (iter.hasNext()) {
 
 			// get the Question type
-			AtomicQueryConcept a = (AtomicQueryConcept) iter.get();
+			AtomicQueryConcept a = (AtomicQueryConcept) iter.next();
 
 			String docText = a.getText();
-			String text = docText.replace("?", "");
+			String text = docText;
 
 			System.out.println(text);
 			
-/************************************************************************/
-/*			
-			String queText=text;
-			String stemmedQue = StanfordLemmatizer.stemText(queText);
-			
-			
-			// remove stop words by StopWordRemover
-			StopWordRemover stopWordRemover = StopWordRemover.getInstance();
-			String StopRemovedQue = stopWordRemover.removeStopWords(stemmedQue);
-			
-			text=stemmedQue;
-*/
-			/************************************************************************/
-			
-	/*		GoPubMedService service = null;
-
-			
-			try {
-				service = new GoPubMedService("project.properties");
-			} catch (ConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	*/		
 			/********************************************************************/
 			
 			PubMedSearchServiceResponse.Result pubmedResult = null;
@@ -94,23 +70,20 @@ GoPubMedService service=null;
 				e.printStackTrace();
 			}
 			
-			
-			
 	          
 	          int rank=1;
-		    System.out.println(pubmedResult.getSize());
+		    
+	          System.err.println("document size:"+ pubmedResult.getSize());
+		    
 		    for(PubMedSearchServiceResponse.Document documents : pubmedResult.getDocuments()){
-		    	// System.out.println(" >>>>>>>>>>>>>> " + documents.getPmid());
+		    	 System.out.println(" >>>>>>>>>>>>>> " + documents.getPmid());
 		    	String m="http://www.ncbi.nlm.nih.gov/pubmed/"+documents.getPmid();
 				 Document doc=TypeFactory.createDocument(aJCas,m,"xxxx",rank,"cccc",documents.getPmid(),documents.getPmid());
 				 rank++;
 				 doc.addToIndexes();
 			
 		    }
-			
-			//System.out.println("***********");
-
-			iter.moveToNext();
+		
 
 		}
 
