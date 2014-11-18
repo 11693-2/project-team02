@@ -23,17 +23,17 @@ public class QuestionAnnotator extends JCasAnnotator_ImplBase {
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
 		// TODO Auto-generated method stub
 		
-		System.err.println("questionannotator");
+		System.out.println("question annotator");
 		
 		FSIterator iter = aJCas.getAnnotationIndex(Question.type).iterator();
 		if (iter.hasNext()){
 			Question question = (Question)iter.next();
 			String queText = question.getText();
 			
-			 queText = queText.replace("?", "");
+			queText = queText.replace("?", "");
 			
 			// stem words with StanfordLemmatizer
-		/*	String stemmedQue = StanfordLemmatizer.stemText(queText);
+			/* String stemmedQue = StanfordLemmatizer.stemText(queText);
 			
 			
 			// remove stop words by StopWordRemover
@@ -71,7 +71,7 @@ public class QuestionAnnotator extends JCasAnnotator_ImplBase {
 			atomic.setText(queText);
 			atomic.setOriginalText(question.getText());
 			atomic.addToIndexes(aJCas);
-			System.err.println("finish1");
+			System.out.println("finish1");
 			
 			//ComplexQueryConcept to cas
 			/*List<AtomicQueryConcept> list = new ArrayList<AtomicQueryConcept>();
@@ -81,11 +81,10 @@ public class QuestionAnnotator extends JCasAnnotator_ImplBase {
 			complex.addToIndexes();*/
 			
 		}
+	
+		System.out.println("finish");
 		
-		System.err.println("finish");
-		
-		
-		
+	
 	}
 
 }

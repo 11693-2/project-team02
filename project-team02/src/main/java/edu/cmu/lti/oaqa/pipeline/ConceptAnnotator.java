@@ -11,6 +11,7 @@ import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.resource.ResourceInitializationException;
 
 import util.StanfordLemmatizer;
@@ -22,6 +23,7 @@ import edu.cmu.lti.oaqa.bio.bioasq.services.OntologyServiceResponse;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.kb.Concept;
 import edu.cmu.lti.oaqa.type.retrieval.AtomicQueryConcept;
+import edu.cmu.lti.oaqa.type.retrieval.ComplexQueryConcept;
 import edu.cmu.lti.oaqa.type.retrieval.ConceptSearchResult;
 
 /**
@@ -54,16 +56,20 @@ public class ConceptAnnotator extends JCasAnnotator_ImplBase {
 		 * define an iterator to traverse the content of the cas in form of the
 		 * Question Type
 		 */
-		FSIterator iter = aJCas.getAnnotationIndex(AtomicQueryConcept.type).iterator();
+		//FSIterator iter = aJCas.getAnnotationIndex(AtomicQueryConcept.type).iterator();
+
 		//FSIterator iter = aJCas.getAnnotationIndex(Question.type).iterator();
+		
+	    FSIterator<TOP> iter = aJCas.getJFSIndexRepository().getAllIndexedFS
+	    		(AtomicQueryConcept.type);
 		int rank = 1;
 
 		// iterate
 		if (iter.hasNext()) {
 
 			// get the Question type
-			//Question a = (Question) iter.next();
-			AtomicQueryConcept a=(AtomicQueryConcept) iter.next();
+			// Question a = (Question) iter.next();
+			AtomicQueryConcept a = (AtomicQueryConcept) iter.next();
 			String docText = a.getText();
 			String text = docText.replace("?", "");
 
