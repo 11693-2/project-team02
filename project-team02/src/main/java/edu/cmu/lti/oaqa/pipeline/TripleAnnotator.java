@@ -14,6 +14,7 @@ import org.apache.uima.cas.FSIterator;
 import org.apache.uima.fit.util.FSCollectionFactory;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.resource.ResourceInitializationException;
 
 import util.StanfordLemmatizer;
@@ -54,13 +55,15 @@ public class TripleAnnotator extends JCasAnnotator_ImplBase {
 		 * define an iterator to traverse the content of the cas in form of the
 		 * Question Type
 		 */
-		FSIterator iter = aJCas.getAnnotationIndex(Question.type).iterator();
-
+		//FSIterator iter = aJCas.getAnnotationIndex(Question.type).iterator();
+	    FSIterator<TOP> iter = aJCas.getJFSIndexRepository().getAllIndexedFS
+	    		(AtomicQueryConcept.type);
+	    
 		// iterate
 		if (iter.hasNext()) {
 
 			// get the Question type
-			Question a = (Question) iter.next();
+			AtomicQueryConcept a = (AtomicQueryConcept) iter.next();
 
 			String docText = a.getText();
 			String text = docText.replace("?", "");

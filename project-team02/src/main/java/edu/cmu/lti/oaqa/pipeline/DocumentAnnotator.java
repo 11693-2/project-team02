@@ -10,6 +10,7 @@ import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.resource.ResourceInitializationException;
 
 import util.StanfordLemmatizer;
@@ -44,14 +45,15 @@ GoPubMedService service=null;
 		 * define an iterator to traverse the content of the cas in form of the
 		 * Question Type
 		 */
-		FSIterator iter = aJCas.getAnnotationIndex(Question.type).iterator();
-
+		//FSIterator iter = aJCas.getAnnotationIndex(Question.type).iterator();
+	    FSIterator<TOP> iter = aJCas.getJFSIndexRepository().getAllIndexedFS
+	    		(AtomicQueryConcept.type);
 
 		// iterate
 		if (iter.isValid()) {
 
 			// get the Question type
-			Question a = (Question) iter.get();
+			AtomicQueryConcept a = (AtomicQueryConcept) iter.get();
 
 			String docText = a.getText();
 			String text = docText.replace("?", "");
