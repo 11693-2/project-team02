@@ -12,8 +12,8 @@
     <delegateAnalysisEngine key="TripleAnnotatorDescriptor">
       <import name="descriptor.TripleAnnotatorDescriptor"/>
     </delegateAnalysisEngine>
-  <delegateAnalysisEngine key="QuestionAnnotatorDescriptor">
-      <import name="descriptor.QuestionAnnotatorDescriptor"/>
+  <delegateAnalysisEngine key="quesDescriptor">
+      <import name="descriptor.quesDescriptor"/>
     </delegateAnalysisEngine>
   </delegateAnalysisEngineSpecifiers>
   <analysisEngineMetaData>
@@ -25,7 +25,7 @@
     <configurationParameterSettings/>
     <flowConstraints>
       <fixedFlow>
-        <node>QuestionAnnotatorDescriptor</node>
+        <node>quesDescriptor</node>
         <node>ConceptAnnotatorDescriptor</node>
         <node>DocumentAnnotatorDescriptor</node>
       <node>TripleAnnotatorDescriptor</node>

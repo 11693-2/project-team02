@@ -7,13 +7,17 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.fit.util.FSCollectionFactory;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.resource.ResourceInitializationException;
 
+import util.StanfordLemmatizer;
+import util.StopWordRemover;
 import util.TypeConstants;
 import util.TypeFactory;
 import util.TypeUtil;
@@ -27,6 +31,21 @@ import edu.cmu.lti.oaqa.type.retrieval.ConceptSearchResult;
 import edu.cmu.lti.oaqa.type.retrieval.TripleSearchResult;
 
 public class TripleAnnotator extends JCasAnnotator_ImplBase {
+	
+
+	GoPubMedService service=null;
+	
+	
+	public void initialize(UimaContext aContext) throws ResourceInitializationException{
+		super.initialize(aContext);
+
+		try {
+			service = new GoPubMedService("project.properties");
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		  }
 
 	@Override
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
@@ -35,20 +54,34 @@ public class TripleAnnotator extends JCasAnnotator_ImplBase {
 		 * define an iterator to traverse the content of the cas in form of the
 		 * Question Type
 		 */
-		FSIterator iter = aJCas.getAnnotationIndex(AtomicQueryConcept.type).iterator();
+		FSIterator iter = aJCas.getAnnotationIndex(Question.type).iterator();
 
 		// iterate
-		if (iter.hasNext()&&iter.isValid()) {
+		if (iter.hasNext()) {
 
 			// get the Question type
-			AtomicQueryConcept a = (AtomicQueryConcept) iter.next();
+			Question a = (Question) iter.next();
 
 			String docText = a.getText();
 			String text = docText.replace("?", "");
 
 			System.out.println(text);
+			
+/************************************************************************/
+			
+			String queText=text;
+			String stemmedQue = StanfordLemmatizer.stemText(queText);
+			
+			
+			// remove stop words by StopWordRemover
+			StopWordRemover stopWordRemover = StopWordRemover.getInstance();
+			String StopRemovedQue = stopWordRemover.removeStopWords(stemmedQue);
+			
+			text=stemmedQue;
 
-			GoPubMedService service = null;
+			/************************************************************************/
+
+		/*	GoPubMedService service = null;
 
 			try {
 				service = new GoPubMedService("project.properties");
@@ -56,7 +89,9 @@ public class TripleAnnotator extends JCasAnnotator_ImplBase {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			*/
 
+			/***************************************/
 			LinkedLifeDataServiceResponse.Result linkedLifeDataResult = null;
 			try {
 				linkedLifeDataResult = service.findLinkedLifeDataEntitiesPaged(text, 0);
