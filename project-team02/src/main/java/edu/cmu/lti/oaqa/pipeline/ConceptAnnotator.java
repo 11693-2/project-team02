@@ -64,13 +64,13 @@ public class ConceptAnnotator extends JCasAnnotator_ImplBase {
 		if (iter.hasNext()) {
 
 			AtomicQueryConcept a = (AtomicQueryConcept) iter.next();
-			//String docText = a.getText();
-			//String text = docText;
-			//System.out.println(text);
-			
+			/*String docText = a.getText();
+			String text = docText;
+			System.out.println(text);
+			*/
 			String text=a.getOriginalText().replace("?","").trim();
 			//String text=a.getOriginalText().toLowerCase().replace("?", "").trim();
-			System.out.println(text+"----heihei");
+			//System.out.println(text+"----heihei");
 			/************************************************************************/
 
 			OntologyServiceResponse.Result diseaseOntologyResult = null;

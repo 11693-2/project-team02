@@ -74,7 +74,7 @@ public class QuestionAnnotator extends JCasAnnotator_ImplBase {
 			
 			String m=queText.replaceAll("[\\p{Punct}]+", " ");
 			
-			System.err.println("^^^^^^"+m);
+			//System.err.println("^^^^^^"+m);
 			
 			String stemmedQue = StanfordLemmatizer.stemText(m);
 			

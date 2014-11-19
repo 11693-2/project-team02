@@ -60,7 +60,7 @@ public class DocumentAnnotator extends JCasAnnotator_ImplBase {
 			String docText = a.getText();
 			String text = docText;
 
-			System.out.println(text);
+			//System.out.println(text);
 			
 			/********************************************************************/			
 			 try {
@@ -71,12 +71,13 @@ public class DocumentAnnotator extends JCasAnnotator_ImplBase {
           
 	          int rank=1;
 		    
-	          System.err.println("document size:"+ pubmedResult.getSize());
+	         // System.err.println("document size:"+ pubmedResult.getSize());
 		    
 		    for(PubMedSearchServiceResponse.Document documents : pubmedResult.getDocuments()){
 		    	 System.out.println(" >>>>>>>>>>>>>> " + documents.getPmid());
 		    	String m="http://www.ncbi.nlm.nih.gov/pubmed/"+documents.getPmid();
 				 Document doc=TypeFactory.createDocument(aJCas,m,"xxxx",rank,"cccc",documents.getPmid(),documents.getPmid());
+				 doc.setQueryString(text);
 				 rank++;
 				 doc.addToIndexes();
 			
