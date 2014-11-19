@@ -107,11 +107,6 @@ public class CasConsumer extends CasConsumer_ImplBase {
 
   
 
-    /*
-     * for (TripleSearchResult csr : tripleList) { System.err.println("score:" + csr.getScore() +
-     * " rank:" + csr.getRank() + " subject: " + csr.getTriple().getSubject() + " preject: " +
-     * csr.getTriple().getPredicate() + " object:" + csr.getTriple().getObject()); }
-     */
   }
 
   /**
