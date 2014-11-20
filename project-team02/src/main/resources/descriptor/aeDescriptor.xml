@@ -6,11 +6,11 @@
     <delegateAnalysisEngine key="QuestionAnnotatorDescriptor">
       <import name="descriptor.QuestionAnnotatorDescriptor"/>
     </delegateAnalysisEngine>
-    <delegateAnalysisEngine key="SnippetAnnotatorDescriptor">
-      <import name="descriptor.SnippetAnnotatorDescriptor"/>
-    </delegateAnalysisEngine>
     <delegateAnalysisEngine key="DocumentAnnotatorDescriptor">
       <import name="descriptor.DocumentAnnotatorDescriptor"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="SnippetDescriptor">
+      <import name="descriptor.SnippetDescriptor"/>
     </delegateAnalysisEngine>
   </delegateAnalysisEngineSpecifiers>
   <analysisEngineMetaData>
@@ -24,7 +24,7 @@
       <fixedFlow>
         <node>QuestionAnnotatorDescriptor</node>
         <node>DocumentAnnotatorDescriptor</node>
-        <node>SnippetAnnotatorDescriptor</node>
+        <node>SnippetDescriptor</node>
       </fixedFlow>
     </flowConstraints>
     <typePriorities/>
