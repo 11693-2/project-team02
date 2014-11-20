@@ -1,11 +1,11 @@
 package edu.cmu.lti.oaqa.pipeline;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.io.IOException;
 
 import json.JsonCollectionReaderHelper;
 import json.gson.TestQuestion;
@@ -22,6 +22,8 @@ import util.TypeUtil;
 import edu.cmu.lti.oaqa.type.retrieval.ConceptSearchResult;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
 import edu.cmu.lti.oaqa.type.retrieval.TripleSearchResult;
+import edu.cmu.lti.oaqa.type.retrieval.Passage;
+
 
 public class CasConsumer extends CasConsumer_ImplBase {
 
@@ -75,6 +77,10 @@ public class CasConsumer extends CasConsumer_ImplBase {
             : TypeUtil.getRankedConceptSearchResults(jcas);
     Collection<TripleSearchResult> tripleList = TypeUtil.getRankedTripleSearchResults(jcas) == null ? new ArrayList<TripleSearchResult>()
             : TypeUtil.getRankedTripleSearchResults(jcas);
+    
+    
+    Collection<Passage> SnippetList = TypeUtil.getRankedPassages(jcas) == null ? new ArrayList<Passage>()
+            : TypeUtil.getRankedPassages(jcas);
 
     List<String> docGold = docMap.get(qid) == null ? new ArrayList<String>() : docMap.get(qid);
     List<String> conceptGold = conceptMap.get(qid) == null ? new ArrayList<String>() : conceptMap
@@ -104,6 +110,23 @@ public class CasConsumer extends CasConsumer_ImplBase {
      * System.out.println(concept.getText()+" score:"+concept.getScore()); } for (TripleSearchResult
      * triple : tripleList){ System.out.println(triple.getText()+" score:"+triple.getScore()); }
      */
+    
+    
+   
+int count=0;
+    for (Passage snippet : SnippetList){ 
+    	if(count==5) break;
+  	  
+  	  System.out.println("beginSection:" + snippet.getBeginSection());
+  	 System.out.println("document:" + snippet.getUri());
+  	 System.out.println("endSection:" + snippet.getEndSection());
+  	 System.out.println("offsetInBeginSection:" + snippet.getOffsetInBeginSection());
+  	 System.out.println("offsetInEndSection:" + snippet.getOffsetInEndSection());
+  	 System.out.println("text:" + snippet.getText());
+  	 System.out.println("Score:" + snippet.getScore());
+  	 count++;
+  	  }
+     
 
   
 

@@ -2,8 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.cmu.lti.11791.f14.project</groupId>
-	<artifactId>project-team02</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>project-team02
+</artifactId>
+	<version>0.0.1</version>
 	<name>DEIIS-project</name>
 	<build>
 		<extensions>
@@ -179,7 +180,7 @@
 	<scm>
 		<connection>scm:git:git@github.com:oaqa/DEIIS-project-archetype.git</connection>
 		<developerConnection>scm:git:git@github.com:oaqa/DEIIS-project-archetype.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>project-team02-0.0.1</tag>
 	</scm>
 	<repositories>
 		<repository>

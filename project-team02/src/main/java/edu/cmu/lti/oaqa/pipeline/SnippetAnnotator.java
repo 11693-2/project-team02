@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -25,12 +27,14 @@ import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FSIterator;
+import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.resource.ResourceInitializationException;
 
 import util.StanfordLemmatizer;
 import util.TypeFactory;
+import util.TypeUtil;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -38,6 +42,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant;
+import edu.cmu.lti.oaqa.type.retrieval.ConceptSearchResult;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
 import edu.cmu.lti.oaqa.type.retrieval.Passage;
 
@@ -53,7 +58,7 @@ public class SnippetAnnotator extends JCasAnnotator_ImplBase {
 	public List<String> alist;
 	public Map<String, Integer> queryVector;
 	public Map<String, Integer> docVector;
-	
+	public int rank;
 
 	public String stopwords;
 
@@ -81,7 +86,7 @@ public class SnippetAnnotator extends JCasAnnotator_ImplBase {
 		}
 		return count;
 	}
-	
+
 	List<String> tokenize0(String doc) {
 		List<String> res = new ArrayList<String>();
 
@@ -92,17 +97,16 @@ public class SnippetAnnotator extends JCasAnnotator_ImplBase {
 
 	List<String> tokenize_sentence(String doc) {
 		List<String> res = new ArrayList<String>();
-		//doc.replace("?", ".");
-		//doc.replace("!", ".");
+		// doc.replace("?", ".");
+		// doc.replace("!", ".");
 		doc.replace(" ", "#");
-		System.err.println(doc);
-		int a=calculate(doc.toString(),".");
-		System.err.print(a);
-		//System.err.print(doc.indexOf("."));
-		/*for (String s : doc.split(".")){
-			res.add(s);
-			System.err.print(s);			
-		}*/
+		// System.err.println(doc);
+		int a = calculate(doc.toString(), ".");
+		// System.err.print(a);
+		// System.err.print(doc.indexOf("."));
+		/*
+		 * for (String s : doc.split(".")){ res.add(s); System.err.print(s); }
+		 */
 		return res;
 	}
 
@@ -128,7 +132,6 @@ public class SnippetAnnotator extends JCasAnnotator_ImplBase {
 			return null;
 		}
 	}
-
 
 	/**
 	 * @param queryVector
@@ -192,12 +195,11 @@ public class SnippetAnnotator extends JCasAnnotator_ImplBase {
 
 		String whole;
 		String row;
+		rank=0;
 
 		FSIterator<TOP> iter = aJCas.getJFSIndexRepository().getAllIndexedFS(Document.type);
 
 		while (iter.hasNext()) {
-
-			
 
 			/**
 			 * get the document docID to add them into the prefix and then to go
@@ -206,8 +208,8 @@ public class SnippetAnnotator extends JCasAnnotator_ImplBase {
 
 			Document doc = (Document) iter.next();
 
-			System.err.println(doc.getDocId());
-			System.err.println(doc.getQueryString());
+			// System.err.println(doc.getDocId());
+			// System.err.println(doc.getQueryString());
 
 			/*********************************************************************************/
 			/**
@@ -217,7 +219,7 @@ public class SnippetAnnotator extends JCasAnnotator_ImplBase {
 
 			String query = doc.getQueryString();
 
-			System.err.println(query);
+			// System.err.println(query);
 
 			querylist = new ArrayList<String>();
 
@@ -269,29 +271,29 @@ public class SnippetAnnotator extends JCasAnnotator_ImplBase {
 					whole += row;
 				}
 
-				System.out.println("article:" + whole);
+				// System.out.println("article:" + whole);
 
 				JsonElement jsonEle = new JsonParser().parse(whole);
 				JsonObject jsonObj = jsonEle.getAsJsonObject();
-				
+
 				JsonArray a = jsonObj.getAsJsonArray("sections");
 				String section = a.get(0).getAsString().replace(".", "#");
-				
-				System.err.println("ss***:" + section);
+
+				// System.err.println("ss***:" + section);
 
 				/*****************************************************************/
 				/** get the sentence from the article **/
-				
+
 				sentencelist = new ArrayList<String>();
 				section.replace("?", "#");
 				section.replace("!", "#");
 
-				for (String s : section.split("#")){
+				for (String s : section.split("#")) {
 					sentencelist.add(s);
-					System.out.println(s);			
-				}				
-				System.out.println("&&&&&&&&:" + sentencelist.size());
-				
+					System.out.println(s);
+				}
+				// System.out.println("&&&&&&&&:" + sentencelist.size());
+
 				/*****************************************************************/
 				/**
 				 * calculate the cosine similarity of each sentence and find the
@@ -300,9 +302,9 @@ public class SnippetAnnotator extends JCasAnnotator_ImplBase {
 				 **/
 				/*****************/
 				/** get the docVector for each sentence **/
-				double max=0.0;
-				String max_text = sentencelist.get(0);
-				
+				double max = 0.0;
+				String max_text = sentencelist.get(1);
+
 				for (String s : sentencelist) {
 					System.err.println(s);
 
@@ -332,35 +334,61 @@ public class SnippetAnnotator extends JCasAnnotator_ImplBase {
 
 					/***** calculate the cosine similarity score for each sentence ***/
 					double score = computeCosineSimilarity(queryVector, docVector);
-					
-					System.out.println(s + " " + score);
-					if(score>max){
-						max=score;
-						max_text=s;
+
+					// System.out.println(s + " " + score);
+					if (score > max) {
+						max = score;
+						max_text = s;
 					}
+					/******* create the passage for each sentence ****/
+
+					int begin = section.indexOf(s);
+					int end = begin + s.length() + 1;
+
+					Passage passage = TypeFactory.createPassage(aJCas, url, score, max_text, 0, query, "",
+							new ArrayList<CandidateAnswerVariant>(), doc.getTitle(), doc.getDocId(), begin, end,
+							"sections.0", "sections.0", "");
+
+					passage.addToIndexes();
+					rank++;
+					
+
 				}
-				/********************/
-				/**rank the sentence by score and find the maximum to store in the passage type**/
 				
-				System.out.println("*************"+ max + " " + max_text);
-				
-		        int begin = section.indexOf(max_text);
-		        int end = begin+max_text.length() + 1;
-		        
-		        Passage passage = TypeFactory.createPassage(aJCas, url, doc.getScore(), max_text, doc.getRank(), query, "", new ArrayList<CandidateAnswerVariant>(), doc.getTitle(), doc.getDocId(), begin, end, "sections.0", "sections.0", "");
-		        
-		        passage.addToIndexes();
-								
 
 			} catch (ClientProtocolException e) {
-			
+
 				e.printStackTrace();
 			} catch (IOException e) {
-				
+
 				e.printStackTrace();
 			}
+			
 
 		}
+		
+
+		/*****************************************/
+		/********************/
+		/**
+		 * rank the passage by score 
+		 **/
+		Collection<Passage> cs = TypeUtil.getRankedPassages(aJCas);
+
+		Collection<Passage> result = TypeUtil.rankedSearchResultsByScore(
+				JCasUtil.select(aJCas,Passage.class), cs.size());
+
+		 System.err.println("passage result size(in consumer):"+result.size());
+
+		Iterator<Passage> it = result.iterator();
+		rank = 1;
+		while (it.hasNext()) {
+			Passage csr = (Passage) it.next();
+			csr.setRank(rank);
+			rank++;
+			
+		}
+		
 	}
 
 }
