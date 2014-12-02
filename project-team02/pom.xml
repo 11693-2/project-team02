@@ -4,7 +4,7 @@
 	<groupId>edu.cmu.lti.11791.f14.project</groupId>
 	<artifactId>project-team02
 </artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.2</version>
 	<name>DEIIS-project</name>
 	<build>
 		<extensions>
@@ -33,6 +33,16 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.1</version>
+                <configuration>
+                    <additionalparam>-Xdoclint:none</additionalparam>
+                </configuration>
+            </plugin>
+            
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
@@ -180,7 +190,7 @@
 	<scm>
 		<connection>scm:git:git@github.com:oaqa/DEIIS-project-archetype.git</connection>
 		<developerConnection>scm:git:git@github.com:oaqa/DEIIS-project-archetype.git</developerConnection>
-		<tag>project-team02-0.0.1</tag>
+		<tag>project-team02-0.0.2</tag>
 	</scm>
 	<repositories>
 		<repository>
