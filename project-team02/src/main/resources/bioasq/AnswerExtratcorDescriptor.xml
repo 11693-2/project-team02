@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
-  <primitive>true</primitive>  <annotatorImplementationName>edu.cmu.lti.oaqa.pipeline.ConceptAnnotator</annotatorImplementationName>
+  <primitive>true</primitive>  <annotatorImplementationName>edu.cmu.lti.oaqa.pipeline.AnswerExtractor</annotatorImplementationName>
   <analysisEngineMetaData>
-    <name>ConceptAnnotatorDescriptor</name>
+    <name>AnswerExtratcorDescriptor</name>
     <description/>
     <version>1.0</version>
     <vendor/>
@@ -11,7 +11,7 @@
     <configurationParameterSettings/>
     <typeSystemDescription>
       <imports>
-        <import name="type.OAQATypes"/>
+        <import name="bioasq.type.OAQATypes"/>
       </imports>
     </typeSystemDescription>
     <typePriorities/>
@@ -19,12 +19,11 @@
     <capabilities>
       <capability>
         <inputs>
-          <type allAnnotatorFeatures="true">edu.cmu.lti.oaqa.type.input.Question</type>
-        <type allAnnotatorFeatures="true">edu.cmu.lti.oaqa.type.retrieval.AtomicQueryConcept</type>
-          <type allAnnotatorFeatures="true">edu.cmu.lti.oaqa.type.retrieval.ComplexQueryConcept</type>
+          <type allAnnotatorFeatures="true">edu.cmu.lti.oaqa.type.retrieval.Passage</type>
         </inputs>
         <outputs>
-          <type allAnnotatorFeatures="true">edu.cmu.lti.oaqa.type.kb.Concept</type>
+          <type allAnnotatorFeatures="true">edu.cmu.lti.oaqa.type.retrieval.AnswerSearchResult</type>
+        <type allAnnotatorFeatures="true">edu.cmu.lti.oaqa.type.answer.Answer</type>
         </outputs>
         <languagesSupported/>
       </capability>

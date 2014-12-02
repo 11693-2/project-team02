@@ -2,24 +2,25 @@
 <analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
   <primitive>false</primitive>  
+  
   <delegateAnalysisEngineSpecifiers>
     <delegateAnalysisEngine key="QuestionAnnotatorDescriptor">
-      <import name="descriptor.QuestionAnnotatorDescriptor"/>
-    </delegateAnalysisEngine>
-    <delegateAnalysisEngine key="DocumentAnnotatorDescriptor">
-      <import name="descriptor.DocumentAnnotatorDescriptor"/>
+      <import name="bioasq.QuestionAnnotatorDescriptor"/>
     </delegateAnalysisEngine>
     <delegateAnalysisEngine key="SnippetDescriptor">
-      <import name="descriptor.SnippetDescriptor"/>
-    </delegateAnalysisEngine>
-  <delegateAnalysisEngine key="AnswerExtratcorDescriptor">
-      <import name="descriptor.AnswerExtratcorDescriptor"/>
+      <import name="bioasq.SnippetDescriptor"/>
     </delegateAnalysisEngine>
     <delegateAnalysisEngine key="TripleAnnotatorDescriptor">
-      <import name="descriptor.TripleAnnotatorDescriptor"/>
+      <import name="bioasq.triple.TripleAnnotatorDescriptor"/>
     </delegateAnalysisEngine>
     <delegateAnalysisEngine key="ConceptAnnotatorDescriptor">
-      <import name="descriptor.ConceptAnnotatorDescriptor"/>
+      <import name="concepts.ConceptAnnotatorDescriptor"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="AnswerExtratcorDescriptor">
+      <import name="bioasq.AnswerExtratcorDescriptor"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="DocumentAnnotatorDescriptor">
+      <import name="documents.DocumentAnnotatorDescriptor"/>
     </delegateAnalysisEngine>
   </delegateAnalysisEngineSpecifiers>
   <analysisEngineMetaData>
@@ -32,9 +33,9 @@
     <flowConstraints>
       <fixedFlow>
         <node>QuestionAnnotatorDescriptor</node>
-        <node>DocumentAnnotatorDescriptor</node>
+        <node>TripleAnnotatorDescriptor</node>
         <node>ConceptAnnotatorDescriptor</node>
-      <node>TripleAnnotatorDescriptor</node>
+        <node>DocumentAnnotatorDescriptor</node>
         <node>SnippetDescriptor</node>
         <node>AnswerExtratcorDescriptor</node>
       </fixedFlow>
