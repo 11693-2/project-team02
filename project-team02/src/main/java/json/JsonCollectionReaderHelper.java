@@ -31,11 +31,10 @@ public class JsonCollectionReaderHelper {
 
 	public static void main(String[] args) {
 		JsonCollectionReaderHelper jsHelper = new JsonCollectionReaderHelper();
-		jsHelper.testRun();
+		//jsHelper.getGoldenAns("/BioASQ-SampleData1B.json");
 	}
 
-	public List<TestQuestion> testRun() {
-		String filePath = "/BioASQ-SampleData1B.json";
+	public List<TestQuestion> getGoldenAns(String filePath) {
 		List<TestQuestion> inputs;
 		inputs = Lists.newArrayList();
 	/*	InputStream stream = getClass().getResourceAsStream(filePath);

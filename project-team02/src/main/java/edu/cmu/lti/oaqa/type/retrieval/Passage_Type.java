@@ -13,7 +13,7 @@ import org.apache.uima.cas.impl.FeatureImpl;
 import org.apache.uima.cas.Feature;
 
 /** A passage search result.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
+ * Updated by JCasGen Sat Nov 29 22:03:38 EST 2014
  * @generated */
 public class Passage_Type extends SearchResult_Type {
   /** @generated 
@@ -212,6 +212,54 @@ public class Passage_Type extends SearchResult_Type {
     ll_cas.ll_setStringValue(addr, casFeatCode_aspects, v);}
     
   
+ 
+  /** @generated */
+  final Feature casFeat_position;
+  /** @generated */
+  final int     casFeatCode_position;
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
+  public int getPosition(int addr) {
+        if (featOkTst && casFeat_position == null)
+      jcas.throwFeatMissing("position", "edu.cmu.lti.oaqa.type.retrieval.Passage");
+    return ll_cas.ll_getIntValue(addr, casFeatCode_position);
+  }
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
+  public void setPosition(int addr, int v) {
+        if (featOkTst && casFeat_position == null)
+      jcas.throwFeatMissing("position", "edu.cmu.lti.oaqa.type.retrieval.Passage");
+    ll_cas.ll_setIntValue(addr, casFeatCode_position, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_wordlist;
+  /** @generated */
+  final int     casFeatCode_wordlist;
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
+  public String getWordlist(int addr) {
+        if (featOkTst && casFeat_wordlist == null)
+      jcas.throwFeatMissing("wordlist", "edu.cmu.lti.oaqa.type.retrieval.Passage");
+    return ll_cas.ll_getStringValue(addr, casFeatCode_wordlist);
+  }
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
+  public void setWordlist(int addr, String v) {
+        if (featOkTst && casFeat_wordlist == null)
+      jcas.throwFeatMissing("wordlist", "edu.cmu.lti.oaqa.type.retrieval.Passage");
+    ll_cas.ll_setStringValue(addr, casFeatCode_wordlist, v);}
+    
+  
 
 
 
@@ -251,6 +299,14 @@ public class Passage_Type extends SearchResult_Type {
  
     casFeat_aspects = jcas.getRequiredFeatureDE(casType, "aspects", "uima.cas.String", featOkTst);
     casFeatCode_aspects  = (null == casFeat_aspects) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_aspects).getCode();
+
+ 
+    casFeat_position = jcas.getRequiredFeatureDE(casType, "position", "uima.cas.Integer", featOkTst);
+    casFeatCode_position  = (null == casFeat_position) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_position).getCode();
+
+ 
+    casFeat_wordlist = jcas.getRequiredFeatureDE(casType, "wordlist", "uima.cas.String", featOkTst);
+    casFeatCode_wordlist  = (null == casFeat_wordlist) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_wordlist).getCode();
 
   }
 }

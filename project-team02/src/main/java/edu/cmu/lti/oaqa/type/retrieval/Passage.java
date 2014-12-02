@@ -9,9 +9,14 @@ import org.apache.uima.jcas.cas.TOP_Type;
 
 
 
+
+
+import org.apache.uima.jcas.cas.StringList;
+
+
 /** A passage search result.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team02-archetype/src/main/resources/type/OAQATypes.xml
+ * Updated by JCasGen Sat Nov 29 22:03:38 EST 2014
+ * XML source: /Users/leixiao/Desktop/project-team02/project-team02/src/main/resources/type/OAQATypes.xml
  * @generated */
 public class Passage extends SearchResult {
   /** @generated
@@ -215,6 +220,50 @@ public class Passage extends SearchResult {
     if (Passage_Type.featOkTst && ((Passage_Type)jcasType).casFeat_aspects == null)
       jcasType.jcas.throwFeatMissing("aspects", "edu.cmu.lti.oaqa.type.retrieval.Passage");
     jcasType.ll_cas.ll_setStringValue(addr, ((Passage_Type)jcasType).casFeatCode_aspects, v);}    
+   
+    
+  //*--------------*
+  //* Feature: position
+
+  /** getter for position - gets 
+   * @generated
+   * @return value of the feature 
+   */
+  public int getPosition() {
+    if (Passage_Type.featOkTst && ((Passage_Type)jcasType).casFeat_position == null)
+      jcasType.jcas.throwFeatMissing("position", "edu.cmu.lti.oaqa.type.retrieval.Passage");
+    return jcasType.ll_cas.ll_getIntValue(addr, ((Passage_Type)jcasType).casFeatCode_position);}
+    
+  /** setter for position - sets  
+   * @generated
+   * @param v value to set into the feature 
+   */
+  public void setPosition(int v) {
+    if (Passage_Type.featOkTst && ((Passage_Type)jcasType).casFeat_position == null)
+      jcasType.jcas.throwFeatMissing("position", "edu.cmu.lti.oaqa.type.retrieval.Passage");
+    jcasType.ll_cas.ll_setIntValue(addr, ((Passage_Type)jcasType).casFeatCode_position, v);}    
+   
+    
+  //*--------------*
+  //* Feature: wordlist
+
+  /** getter for wordlist - gets 
+   * @generated
+   * @return value of the feature 
+   */
+  public String getWordlist() {
+    if (Passage_Type.featOkTst && ((Passage_Type)jcasType).casFeat_wordlist == null)
+      jcasType.jcas.throwFeatMissing("wordlist", "edu.cmu.lti.oaqa.type.retrieval.Passage");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Passage_Type)jcasType).casFeatCode_wordlist);}
+    
+  /** setter for wordlist - sets  
+   * @generated
+   * @param v value to set into the feature 
+   */
+  public void setWordlist(String v) {
+    if (Passage_Type.featOkTst && ((Passage_Type)jcasType).casFeat_wordlist == null)
+      jcasType.jcas.throwFeatMissing("wordlist", "edu.cmu.lti.oaqa.type.retrieval.Passage");
+    jcasType.ll_cas.ll_setStringValue(addr, ((Passage_Type)jcasType).casFeatCode_wordlist, v);}    
   }
 
     

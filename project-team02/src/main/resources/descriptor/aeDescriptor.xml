@@ -12,6 +12,9 @@
     <delegateAnalysisEngine key="SnippetDescriptor">
       <import name="descriptor.SnippetDescriptor"/>
     </delegateAnalysisEngine>
+  <delegateAnalysisEngine key="AnswerExtratcorDescriptor">
+      <import name="descriptor.AnswerExtratcorDescriptor"/>
+    </delegateAnalysisEngine>
   </delegateAnalysisEngineSpecifiers>
   <analysisEngineMetaData>
     <name>aeDescriptor</name>
@@ -25,6 +28,7 @@
         <node>QuestionAnnotatorDescriptor</node>
         <node>DocumentAnnotatorDescriptor</node>
         <node>SnippetDescriptor</node>
+      <node>AnswerExtratcorDescriptor</node>
       </fixedFlow>
     </flowConstraints>
     <typePriorities/>

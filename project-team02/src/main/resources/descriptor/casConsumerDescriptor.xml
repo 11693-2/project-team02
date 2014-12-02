@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <casConsumerDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
   <implementationName>edu.cmu.lti.oaqa.pipeline.CasConsumer</implementationName>
@@ -14,12 +15,24 @@
         <multiValued>false</multiValued>
         <mandatory>false</mandatory>
       </configurationParameter>
+    <configurationParameter>
+        <name>GoldenAnsPath</name>
+        <type>String</type>
+        <multiValued>false</multiValued>
+        <mandatory>false</mandatory>
+      </configurationParameter>
     </configurationParameters>
     <configurationParameterSettings>
       <nameValuePair>
         <name>OutputDocument</name>
         <value>
-          <string>BioASQ-outputData.json</string>
+          <string>/BioASQ-outputData.json</string>
+        </value>
+      </nameValuePair>
+    <nameValuePair>
+        <name>GoldenAnsPath</name>
+        <value>
+          <string>/BioASQ-SampleData1B.json</string>
         </value>
       </nameValuePair>
     </configurationParameterSettings>
