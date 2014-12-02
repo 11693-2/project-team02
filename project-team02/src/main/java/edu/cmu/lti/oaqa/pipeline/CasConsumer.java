@@ -2,6 +2,7 @@ package edu.cmu.lti.oaqa.pipeline;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
@@ -45,6 +46,12 @@ public class CasConsumer extends CasConsumer_ImplBase {
   private Map<String, List<Triple>> tripleMap;
 
   private Map<String, List<Snippet>> snippetMap;
+  
+  private Map<String, String> answerMap;
+  
+  private Map<String, String> realanswerMap;
+  
+  private Map<String, String> exanswerMap;
 
   private List<TestQuestion> goldstandards;
 
@@ -56,24 +63,31 @@ public class CasConsumer extends CasConsumer_ImplBase {
   
   private ArrayList<Boolean> validateAnsArr; //store if this answer is YesNo question
   
-  private static int ansIndex;
+  private int ansIndex;
+  
+  private int a;
 
   public void initialize() throws ResourceInitializationException {
     jsonHelper = new JsonCollectionReaderHelper();
     //FileWriter fw = new FileWriter(((String) getConfigParameterValue(PARAM_OUTPUTPATH)).trim(), false);
-    goldstandards = jsonHelper.getGoldenAns(((String) getConfigParameterValue(GOLDPATH)).trim());
-
+  //  goldstandards = jsonHelper.getGoldenAns(((String) getConfigParameterValue(GOLDPATH)).trim());
+    goldstandards = jsonHelper.getGoldenAns("/BioASQ-SampleData1B.json");
+    
     // Dictionaries of golden standard answer
     docMap = new HashMap<String, List<String>>();
     conceptMap = new HashMap<String, List<String>>();
     tripleMap = new HashMap<String, List<Triple>>();
     snippetMap = new HashMap<String, List<Snippet>>();
-
+    answerMap= new HashMap<String,String>();
+    exanswerMap= new HashMap<String,String>();
+    realanswerMap= new HashMap<String,String>();
+    
     validateAnsArr = new ArrayList<Boolean>();
-    ansIndex = 0;
+    ansIndex =0;
+    a=0;
     
     // get golden answer
-    for (int i = 0; i < goldstandards.size(); i++) {
+ /*   for (int i = 0; i < goldstandards.size(); i++) {
       if(goldstandards.get(i).getType().equals("yesno")){
         docMap.put(goldstandards.get(i).getId(), goldstandards.get(i).getDocuments());
         conceptMap.put(goldstandards.get(i).getId(), goldstandards.get(i).getConcepts());
@@ -81,10 +95,42 @@ public class CasConsumer extends CasConsumer_ImplBase {
         snippetMap.put(goldstandards.get(i).getId(), goldstandards.get(i).getSnippets());
         validateAnsArr.add(true);
       } else {
-        validateAnsArr.add(false);
+        validateAnsArr.add(true);
       }
+    }*/
+    
+    //
+    for (int i = 0; i < goldstandards.size(); i++) {
+    	
+    	System.out.println(goldstandards.get(i).getType()+"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+    	if(goldstandards.get(i).getType().toString().equals("yesno")){
+          docMap.put(goldstandards.get(i).getId(), goldstandards.get(i).getDocuments());
+          conceptMap.put(goldstandards.get(i).getId(), goldstandards.get(i).getConcepts());
+          tripleMap.put(goldstandards.get(i).getId(), goldstandards.get(i).getTriples());
+          snippetMap.put(goldstandards.get(i).getId(), goldstandards.get(i).getSnippets());
+          answerMap.put(goldstandards.get(i).getId(),goldstandards.get(i).getIdealAnswer());
+          String m=goldstandards.get(i).getIdealAnswer();
+          String n=m.substring(0,5);
+          if(n.contains(","))
+          {
+        	  exanswerMap.put(goldstandards.get(i).getId(),m.substring(0,m.indexOf(",")));
+          }
+          else 
+        	  exanswerMap.put(goldstandards.get(i).getId(),m.substring(0,m.indexOf(".")));
+          
+          System.err.println(m);
+          
+          validateAnsArr.add(true);
+    	} else {
+            validateAnsArr.add(false);
+        }
+      }
+    System.out.println(docMap.size()+"((((((((((");
+    
+    for(boolean s: validateAnsArr){
+    	System.out.println(s+"BBBBBBBBBBBBB");
     }
-
+   
     // initialize evaluator
     evaluator = new Evaluator();
     
@@ -96,6 +142,10 @@ public class CasConsumer extends CasConsumer_ImplBase {
 
   // TODO: create answer type, call writer helper
   public void processCas(CAS aCAS) throws ResourceProcessException {
+	  
+	  System.out.println( ansIndex+"<<<<<<<<<<<<<<<<<<<<<<");
+	  
+	 
 
     if(validateAnsArr.get(ansIndex) == true){//if this answer is not yes no question
       JCas jcas = null;
@@ -145,6 +195,7 @@ public class CasConsumer extends CasConsumer_ImplBase {
               + snippetGold.size());
       System.out.println("| postive: " + evaluator.calSnippetPositive(snippetList, snippetGold));
       System.out.println("+-----------------------------------------");
+    
 
       // print out results
       /*
@@ -178,16 +229,22 @@ public class CasConsumer extends CasConsumer_ImplBase {
       }
       
       //set exact answer
+      
+      String exa = null;
+      String ideal = null;
       Iterator<Answer> iter = answerList.iterator();
       if(iter.hasNext()){ //there will only be one answer -- yes or no
         String ansText = iter.next().getText();
         int divider = ansText.indexOf(",");
-        format.setExact_answer(ansText.substring(0, divider-1));
-        format.setIdeal_answer(ansText.substring(divider));
+        format.setExact_answer(ansText.substring(0, divider));
+        exa=ansText.substring(0, divider);
+        format.setIdeal_answer(ansText);
+        ideal=ansText;
+        realanswerMap.put(qid,exa);
       }
       
       format.setId(qid);
-      format.setExact_answer("...");
+     // format.setExact_answer("...");
       // add snippet
       for (Passage p : snippetList) {
         Snippet s = new Snippet("http://www.ncbi.nlm.nih.gov/pubmed/" + p.getDocId(), p.getText(),
@@ -202,8 +259,24 @@ public class CasConsumer extends CasConsumer_ImplBase {
       }
       format.setType("yesno");
       answerArr.add(format);
-      ansIndex++;
+      
+      
+      
+      
+      System.out.println("+-----------ExactAnswer----------------------");
+      System.out.println("| gold: " + exanswerMap.get(qid)+"|real: " + exa);
+      if(exa.contains(".")) exa=exa.replace(".", "");
+      
+      if(exanswerMap.get(qid).equals(exa)) a++;
+      
+      System.out.println("+-----------------------------------------");
+      System.out.println("+-----------Ideal Answer----------------------");
+      System.out.println("| gold: " + answerMap.get(qid));
+      System.out.println("| real: " + ideal);
+      System.out.println("+-----------------------------------------");
+     
     }
+    ansIndex++;
   }
 
   /**
@@ -245,10 +318,30 @@ public class CasConsumer extends CasConsumer_ImplBase {
     System.out.println("| MAP: " + df.format(evaluator.getMAP("snippet")));
     System.out.println("| GMAP: " + df.format(evaluator.getGMAP("snippet")));
     System.out.println("+------------------------------------+");
+    System.out.println("| ExactAnswer                            ");
+    System.out.println("| accuracy: " + (double)a/(double)answerMap.size() + " right number : "+ a + " total number:" + answerMap.size());
+    System.out.println("+------------------------------------+");
+    
+    System.out.println("| Total                            ");
+   
+    for (Map.Entry<String, String> entry : exanswerMap.entrySet()) {
+		String k = entry.getKey();
+		String m=entry.getValue();
+		
+		System.out.println("gold:"+ m );
+		System.out.println("real:" +realanswerMap.get(k));
+		
+
+	}
+    
     
     //use helper to write answer to json file
     JsonFileWriterHelper helper = new JsonFileWriterHelper();
-    helper.writeAnswerToFile(((String) getConfigParameterValue(OUTPUTPATH)).trim(), answerArr);
+   // helper.writeAnswerToFile(((String) getConfigParameterValue(OUTPUTPATH)).trim(), answerArr);
+    
+    
+    helper.writeAnswerToFile("out.json", answerArr);
+
   }
 
 }

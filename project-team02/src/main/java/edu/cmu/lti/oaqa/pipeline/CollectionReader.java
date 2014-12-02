@@ -71,9 +71,11 @@ public class CollectionReader extends CollectionReader_ImplBase {
 		
 	    Question question = inputs.get(i);
 	    
-	   // System.out.println(i+" "+ inputs.get(i).getBody());
+	    System.out.println(i+" "+ inputs.get(i).getType());
 		
-		JsonCollectionReaderHelper.addQuestionToIndex(question," ",jcas);
+	   
+	    	JsonCollectionReaderHelper.addQuestionToIndex(question," ",jcas);
+	   
 		
 		i++;
 

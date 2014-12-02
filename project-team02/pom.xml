@@ -4,7 +4,7 @@
 	<groupId>edu.cmu.lti.11791.f14.project</groupId>
 	<artifactId>project-team02
 </artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>DEIIS-project</name>
 	<build>
 		<extensions>

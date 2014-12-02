@@ -15,6 +15,12 @@
   <delegateAnalysisEngine key="AnswerExtratcorDescriptor">
       <import name="descriptor.AnswerExtratcorDescriptor"/>
     </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="TripleAnnotatorDescriptor">
+      <import name="descriptor.TripleAnnotatorDescriptor"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="ConceptAnnotatorDescriptor">
+      <import name="descriptor.ConceptAnnotatorDescriptor"/>
+    </delegateAnalysisEngine>
   </delegateAnalysisEngineSpecifiers>
   <analysisEngineMetaData>
     <name>aeDescriptor</name>
@@ -27,8 +33,10 @@
       <fixedFlow>
         <node>QuestionAnnotatorDescriptor</node>
         <node>DocumentAnnotatorDescriptor</node>
+        <node>ConceptAnnotatorDescriptor</node>
+      <node>TripleAnnotatorDescriptor</node>
         <node>SnippetDescriptor</node>
-      <node>AnswerExtratcorDescriptor</node>
+        <node>AnswerExtratcorDescriptor</node>
       </fixedFlow>
     </flowConstraints>
     <typePriorities/>
