@@ -1,5 +1,5 @@
 ## Building a Pipeline for Biomedical Question Answering
-=============
+
 
 * This is a **biomedical question answering system**, which is also a team project of 11693/11791 **Software Methos of Biotechnology/Design and Engineering of Intelligent Information System** at Carnegie Mellon University, Fall 2014.
 * We are trying to answer **YES/NO** questions in biomedical domain with high precision.
